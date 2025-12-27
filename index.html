@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta charset="UTF-8">
   <title>Mis XV Años</title>
   <link rel="stylesheet" href="style.css">
@@ -43,27 +45,39 @@
     Mesa de regalos
   </a>
 </section>
-
 <section class="section fade">
   <img src="confirmar.png" class="icono">
   <h3>Confirmar Asistencia</h3>
-  <a class="boton" href="https://wa.me/527226163280"
-   target="_blank"
-   onclick="celebrar()">
+
+  <input id="nombre" placeholder="Tu nombre">
+  <input id="personas" type="number" min="1" placeholder="¿Cuántos irán contigo?">
+
+  <button class="boton whatsapp" onclick="confirmarAsistencia()">
   Confirmar por WhatsApp
-</a>
+</button>
 
 </section>
+
+
 <audio id="musica" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
+
 <button id="btn-musica">🔊</button>
+
+
 <script>
 const musica = document.getElementById("musica");
 const boton = document.getElementById("btn-musica");
 
 musica.volume = 0.2;
+
+window.addEventListener("load", () => {
+  musica.play().catch(() => {
+    boton.textContent = "🔇";
+  });
+});
 
 boton.addEventListener("click", () => {
   if (musica.paused) {
@@ -75,6 +89,8 @@ boton.addEventListener("click", () => {
   }
 });
 </script>
+
+
 <script>
 const secciones = document.querySelectorAll(".section");
 
@@ -90,7 +106,8 @@ const observer = new IntersectionObserver(entries => {
 
 secciones.forEach(sec => observer.observe(sec));
 </script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
 <script>
 window.addEventListener("load", () => {
   confetti({
@@ -100,6 +117,11 @@ window.addEventListener("load", () => {
   });
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
 <script>
 function celebrar() {
   confetti({
@@ -109,6 +131,27 @@ function celebrar() {
   });
 }
 </script>
+
+
+<script>
+function confirmarAsistencia() {
+  const nombre = document.getElementById("nombre").value || "Invitado misterioso";
+  const personas = document.getElementById("personas").value || 1;
+
+  const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV con ${personas} acceso(s). ¡Nos vemos ahí!`;
+
+  const url = `https://wa.me/527226163280?text=${encodeURIComponent(mensaje)}`;
+
+  confetti({
+    particleCount: 120,
+    spread: 100,
+    origin: { y: 0.7 }
+  });
+
+  window.open(url, "_blank");
+}
+</script>
+
 
 </body>
 
