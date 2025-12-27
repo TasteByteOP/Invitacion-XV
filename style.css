@@ -1,0 +1,83 @@
+body {
+  background: #f7f2f8;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.card {
+  background: white;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 5px;
+}
+
+.fecha {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.boton {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  background: #c084fc;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.hero {
+  height: 100vh;
+  background: url("portada.jpg") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-text {
+  text-align: center;
+  color: white;
+  animation: fadeIn 2s ease;
+}
+
+.hero-text h1 {
+  font-size: 3em;
+  margin: 0;
+}
+
+.hero-text h2 {
+  font-size: 1.8em;
+  margin-top: 10px;
+}
+
+.fade {
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
