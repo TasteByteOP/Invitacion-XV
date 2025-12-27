@@ -1,0 +1,43 @@
+body {
+  background: #f7f2f8;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.card {
+  background: white;
+  max-width: 400px;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 5px;
+}
+
+.fecha {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.boton {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  background: #c084fc;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
