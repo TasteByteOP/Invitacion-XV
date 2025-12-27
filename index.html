@@ -7,44 +7,108 @@
 </head>
 <body>
 
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Mis XV Años</h1>
-      <h2>Yuni</h2>
-    </div>
-  </section>
-
-  <div class="card fade">
-    <p class="fecha">7 de Marzo</p>
-
-    <hr>
-
-    <h3>Programa</h3>
-    <ul>
-      <li><b>Misa:</b> 5:00 PM – Iglesia San Juan</li>
-      <li><b>Recepción:</b> 7:00 PM</li>
-      <li><b>Fiesta:</b> Salón Los Ángeles</li>
-    </ul>
-
-    <h3>Ubicación</h3>
-    <a class="boton" href="https://maps.google.com" target="_blank">
-      Ver en Google Maps
-    </a>
-
-    <h3>Mesa de Regalos</h3>
-    <p>
-      Tu presencia es lo más importante,
-      pero si deseas hacernos un regalo:
-    </p>
-    <a class="boton" href="#">
-      Mesa de regalos
-    </a>
-
-    <h3>Confirmar Asistencia</h3>
-    <a class="boton" href="https://wa.me/5210000000000" target="_blank">
-      Confirmar por WhatsApp
-    </a>
+<section class="hero">
+  <div class="hero-text">
+    <h1>Mis XV Años</h1>
+    <h2>Yuni</h2>
   </div>
+</section>
+
+<section class="section fade">
+  <img src="misa.png" class="icono">
+  <h3>Programa</h3>
+  <ul>
+    <li><b>Misa:</b> 5:00 PM – Iglesia San Juan</li>
+    <li><b>Recepción:</b> 7:00 PM</li>
+    <li><b>Fiesta:</b> Salón Los Ángeles</li>
+  </ul>
+</section>
+
+<section class="section fade">
+  <img src="ubicacion.png" class="icono">
+  <h3>Ubicación</h3>
+  <a class="boton" href="https://maps.google.com" target="_blank">
+    Ver en Google Maps
+  </a>
+</section>
+
+<section class="section fade">
+  <img src="regalos.png" class="icono">
+  <h3>Mesa de Regalos</h3>
+  <p>
+    Tu presencia es lo más importante,  
+    pero si deseas hacernos un regalo:
+  </p>
+  <a class="boton" href="#">
+    Mesa de regalos
+  </a>
+</section>
+
+<section class="section fade">
+  <img src="confirmar.png" class="icono">
+  <h3>Confirmar Asistencia</h3>
+  <a class="boton" href="https://wa.me/527226163280"
+   target="_blank"
+   onclick="celebrar()">
+  Confirmar por WhatsApp
+</a>
+
+</section>
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<button id="btn-musica">🔊</button>
+<script>
+const musica = document.getElementById("musica");
+const boton = document.getElementById("btn-musica");
+
+musica.volume = 0.2;
+
+boton.addEventListener("click", () => {
+  if (musica.paused) {
+    musica.play();
+    boton.textContent = "🔊";
+  } else {
+    musica.pause();
+    boton.textContent = "🔇";
+  }
+});
+</script>
+<script>
+const secciones = document.querySelectorAll(".section");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, {
+  threshold: 0.2
+});
+
+secciones.forEach(sec => observer.observe(sec));
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+window.addEventListener("load", () => {
+  confetti({
+    particleCount: 80,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+});
+</script>
+<script>
+function celebrar() {
+  confetti({
+    particleCount: 120,
+    spread: 100,
+    origin: { y: 0.7 }
+  });
+}
+</script>
 
 </body>
 
