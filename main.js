@@ -34,6 +34,12 @@ btnMusica.addEventListener("click", () => {
   }
 });
 
+const aviso = document.getElementById("aviso-musica");
+
+btnMusica.addEventListener("click", () => {
+  aviso.style.display = "none";
+});
+
 
 // ========= CONFIRMAR ASISTENCIA =========
 const btnConfirmar = document.getElementById("btn-confirmar");
@@ -118,3 +124,43 @@ window.addEventListener("load", () => {
     origin: { y: 0.6 }
   });
 });
+
+
+// ===== MURAL =====
+const inputUpload = document.getElementById("upload");
+const estado = document.getElementById("estado-subida");
+
+const CLOUD_NAME = "dxrnsitv5";
+const UPLOAD_PRESET = "mural_xv";
+
+inputUpload.addEventListener("change", async () => {
+  const file = inputUpload.files[0];
+  if (!file) return;
+
+  estado.textContent = "Subiendo imagen... ⏳";
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  try {
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.secure_url) {
+      estado.textContent = "Imagen subida correctamente ✅";
+    } else {
+      estado.textContent = "Error al subir ❌";
+    }
+  } catch (err) {
+    estado.textContent = "Error de conexión ❌";
+  }
+});
+
