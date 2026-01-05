@@ -1,0 +1,195 @@
+/* ----- DISEÑO ----- */
+input {
+  width: 95%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  font-size: 1em;
+}
+
+#contador {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+#contador span {
+  background: #fff;
+  padding: 14px;
+  border-radius: 14px;
+  min-width: 70px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+#btn-musica {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: #c9a227;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+.boton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.7),
+    transparent
+  );
+  transform: skewX(-20deg);
+}
+
+.boton:hover::after {
+  animation: brillo 0.9s ease;
+}
+
+@keyframes brillo {
+  from { left: -100%; }
+  to { left: 120%; }
+}
+
+.hero-text h1 {
+  font-family: "Birthstone", regular;
+  font-size: 5rem;
+  letter-spacing: 3px;
+}
+
+.hero-text h2 {
+  font-family: "Birthstone", regular;
+  font-size: 3rem;
+}
+
+.section h3 {
+  font-family: "Birthstone", regular;
+  font-size: 2rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin: 12px 0;
+}
+
+.icono {
+  width: 60px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+/* ----- BASE ----- */
+body {
+  margin: 0;
+  font-family: Gabarito, sans-serif;
+  color: #30710b;
+  background: linear-gradient(
+    to bottom,
+    #050a04 0%,
+    #050a04 35%,
+    #6a6a6a 70%,
+    #f2f2f2 100%
+  );
+}
+
+/* ----- HERO ----- */
+.hero {
+  height: 100vh;
+  background: url("Assets/img/portada.png") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text {
+  text-align: center;
+  color: white;
+  animation: fadeIn 2s ease;
+  position: relative;
+  z-index: 3;
+}
+
+/* ----- SECCIONES ----- */
+.section {
+  background: #a4cb8f;
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.5s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----- BOTONES ----- */
+.boton {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #3b2f00;
+  background: linear-gradient(135deg, #c9a227, #f5e28a, #b8961e);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ----- LUCIERNAGAS ----- */
+#luciernagas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.luciernaga {
+  position: absolute;
+  background: radial-gradient(circle, #ffd966, transparent 70%);
+  opacity: 0;
+  animation:
+    flotar linear infinite,
+    parpadear ease-in-out infinite;
+}
+
+@keyframes flotar {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-100vh); }
+}
+
+@keyframes parpadear {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.8; }
+}
