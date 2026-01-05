@@ -25,6 +25,18 @@ input {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+@media (max-width: 500px) {
+  #contador {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  #contador span {
+    width: 45%;
+    margin-bottom: 10px;
+  }
+}
+
 #btn-musica {
   position: fixed;
   bottom: 20px;
@@ -98,6 +110,28 @@ li {
   margin-bottom: 15px;
 }
 
+/* INDEX */
+#luciernagas {
+  position: fixed;
+  z-index: 2;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 3;
+}
+
+.section {
+  position: relative;
+  z-index: 4;
+}
+
+
 /* ----- BASE ----- */
 body {
   margin: 0;
@@ -120,7 +154,6 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 1;
 }
 
 .hero-text {
@@ -128,7 +161,6 @@ body {
   color: white;
   animation: fadeIn 2s ease;
   position: relative;
-  z-index: 3;
 }
 
 /* ----- SECCIONES ----- */
@@ -164,6 +196,36 @@ body {
   overflow: hidden;
 }
 
+#aviso-musica {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 10;
+  animation: flotito 2s ease-in-out infinite;
+}
+
+/* animación suave */
+@keyframes flotito {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* 📱 celular */
+@media (max-width: 500px) {
+  #aviso-musica {
+    font-size: 0.75rem;
+    right: 12px;
+    bottom: 70px;
+  }
+}
+
+
 /* ----- LUCIERNAGAS ----- */
 #luciernagas {
   position: fixed;
@@ -172,7 +234,6 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
 }
 
 .luciernaga {
