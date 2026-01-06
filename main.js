@@ -12,6 +12,26 @@ const observer = new IntersectionObserver(entries => {
 secciones.forEach(sec => observer.observe(sec));
 
 
+// ========= SUBIR ARRIBA =========
+const btnTop = document.getElementById("btn-top");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 200) {
+    btnTop.classList.add("visible");
+  } else {
+    btnTop.classList.remove("visible");
+  }
+});
+
+btnTop.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+
+
 // ========= MÚSICA =========
 const musica = document.getElementById("musica");
 const btnMusica = document.getElementById("btn-musica");
