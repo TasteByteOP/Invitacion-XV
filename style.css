@@ -196,6 +196,45 @@ body {
   overflow: hidden;
 }
 
+#btn-top {
+  position: fixed;
+  bottom: 20px;
+  right: 80px; /* 👈 a la izquierda del botón música */
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: #c9a227;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 10;
+}
+
+#btn-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 500px) {
+  #btn-top {
+    right: 70px;
+  }
+}
+
+
+/* visible */
+#btn-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+
 #aviso-musica {
   position: fixed;
   bottom: 80px;
