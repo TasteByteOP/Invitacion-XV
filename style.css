@@ -95,6 +95,7 @@ input {
 }
 
 ul {
+  font-family: "Birthstone", regular;
   list-style: none;
   font-size: 1.1rem;
   padding: 0;
@@ -294,3 +295,4 @@ body {
   0%, 100% { opacity: 0.1; }
   50% { opacity: 0.8; }
 }
+
