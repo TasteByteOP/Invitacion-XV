@@ -1,6 +1,7 @@
 Va a ser para el 7 de Marzo
 Invitación Digital
 
+//COMPLETADO
 Que indique el programa:
 - Horarios
 - Lugar
@@ -10,7 +11,15 @@ Que indique el programa:
 No tan sofisticado
 Mesa de regalos para depositar supongo
 
-
 Una landing page (pagina de datos básicos interactivo)
 
 Utilizar un programa que ya exista
+
+	- Texto que diga "Activar Música" en el botón de música
+	- Reparar la subida de imágenes
+	- Adaptar el conteo para télefonos
+	- Añadir botón de subir todo arriba cuando bajemos un poco (que aparezca y desaparezca)
+
+//AHORA
+	- Cambiar imágen de fondo e inconos. (Trabajo de didi)
+	- Reparar la página para ver el mural (html)
