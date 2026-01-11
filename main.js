@@ -184,3 +184,29 @@ inputUpload.addEventListener("change", async () => {
   }
 });
 
+//Time Line
+const timelineItems = document.querySelectorAll(".timeline-item");
+
+const observerTimeline = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.2 });
+
+timelineItems.forEach(item => observerTimeline.observe(item));
+
+// Mostrar/ocultar datos bancarios
+const btnBanco = document.getElementById("btn-banco");
+const datosBanco = document.getElementById("datos-banco");
+
+btnBanco.addEventListener("click", () => {
+  if (datosBanco.style.display === "none") {
+    datosBanco.style.display = "block";
+    btnBanco.textContent = "💳 Ocultar datos bancarios";
+  } else {
+    datosBanco.style.display = "none";
+    btnBanco.textContent = "💳 Ver datos bancarios";
+  }
+});
