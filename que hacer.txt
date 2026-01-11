@@ -19,7 +19,13 @@ Utilizar un programa que ya exista
 	- Reparar la subida de imágenes
 	- Adaptar el conteo para télefonos
 	- Añadir botón de subir todo arriba cuando bajemos un poco (que aparezca y desaparezca)
+	- Botones para whatsapp con colores del temporizador
+	- Decorar la sección "Programa" para que se vea como línea de tiempo vertical
+	- Agregar la mesa de regalos de liverpool y datos bancarios.
 
 //AHORA
 	- Cambiar imágen de fondo e inconos. (Trabajo de didi)
 	- Reparar la página para ver el mural (html)
+	- Buzón de deseos.
+	- Ubicaciones de iglesia y salón.
+	- Animación como de abrir sobre al entrar.
