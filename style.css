@@ -1,58 +1,193 @@
-/* ----- DISEÑO ----- */
+/* ----- BASE ----- */
+body {
+  margin: 0;
+  font-family: Gabarito, sans-serif;
+  color: #f780ae;
+  background: linear-gradient(180deg, #ffffff,#ffdcd1,#f780ae,#f780ae);
+  );
+}
+
+/* ----- HERO ----- */
+.hero {
+  height: 100vh;
+  background: url("Assets/img/portada.png") center/contain no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+/* .hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 0;
+} */
+.hero-text {
+  text-align: center;
+  color: white;
+  animation: fadeIn 2s ease;
+  position: relative;
+  z-index: 1;
+  color: #64cccc;
+}
+.hero-text h1 {
+  font-family: "Pinyon Script", cursive;
+  font-size: 8rem;
+  letter-spacing: 3px;
+}
+.hero-text h2 {
+  font-family: "Birthstone", cursive;
+  font-size: 3rem;
+}
+#nombre {
+  font-family: Gabarito, sans-serif;
+  font-weight: normal;
+}
+#personas {
+  font-family: Gabarito, sans-serif;
+  font-weight: normal;
+}
+
+/* ----- SECCIONES ----- */
+.section {
+  background: #fff;
+  border: 2px solid #c9a227;
+  max-width: 450px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.5s ease;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section h2 {
+  font-family: "Birthstone", cursive;
+  font-size: 3rem;
+}
+.section h3 {
+  font-family: "Birthstone", cursive;
+  font-size: 2.5rem;
+}
+.section p {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+#datos-banco {
+  background: #fff;
+  border: 2px solid #c9a227;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-size: 1rem;
+  color: #3b2f00;
+  width: 100%;
+  box-sizing: border-box;
+}
+#datos-banco p {
+  margin: 6px 0;
+}
+
+
+/* ----- INPUTS ----- */
+label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  margin: 12px 0 6px;
+  font-family: "Birthstone", cursive;
+  font-size: 1.4rem;
+  color: #c9a227;
+}
+
 input {
   width: 95%;
   padding: 12px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: none;
-  background: #fff;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  border: 1px solid #c9a227;
+  background: linear-gradient(135deg, #fff, #f5e28a);
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
   font-size: 1em;
+  transition: all 0.3s ease;
 }
 
-#contador {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
+input:focus {
+  outline: none;
+  box-shadow: 0 0 12px rgba(201,162,39,0.8);
+  transform: scale(1.02);
 }
 
-#contador span {
-  background: #fff;
-  padding: 14px;
-  border-radius: 14px;
-  min-width: 70px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-@media (max-width: 500px) {
-  #contador {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  #contador span {
-    width: 45%;
-    margin-bottom: 10px;
-  }
-}
-
-#btn-musica {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  background: #c9a227;
-  color: white;
-  font-size: 20px;
+/* Inputs tipo archivo */
+input[type="file"] {
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  z-index: 10;
+  padding: 10px;
+  background: linear-gradient(135deg, #fff, #f5e28a);
+  border: 1px solid #c9a227;
 }
 
+
+/* ----- LISTAS ----- */
+ul {
+  list-style: none;
+  font-size: 1.1rem;
+  padding: 0;
+  margin: 0;
+}
+li {
+  margin: 12px 0;
+}
+.icono {
+  width: 60px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+/* ----- BOTONES ----- */
+.boton {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #3b2f00;
+  background: linear-gradient(135deg, #c9a227, #f5e28a, #b8961e);
+  position: relative;
+  overflow: hidden;
+  font-family: Gabarito, sans-serif;
+}
+.boton2 {
+  font-weight: normal;
+  width: 100%;
+  border: none;          /* elimina borde por defecto de <button> */
+  background: linear-gradient(135deg, #c9a227, #f5e28a, #b8961e);
+  text-decoration: none; /* elimina subrayado de <a> */
+  cursor: pointer;       /* asegura mismo cursor */
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .timeline-item {
+    width: 100%;
+    text-align: center;
+  }
+  .timeline::before {
+    left: 20px; /* o esconder la línea en móvil */
+  }
+}
+.boton:hover {
+  box-shadow: 0 0 15px rgba(201,162,39,0.8);
+  transform: scale(1.05);
+}
 .boton::after {
   content: "";
   position: absolute;
@@ -68,146 +203,170 @@ input {
   );
   transform: skewX(-20deg);
 }
-
 .boton:hover::after {
   animation: brillo 0.9s ease;
 }
-
 @keyframes brillo {
   from { left: -100%; }
   to { left: 120%; }
 }
 
-.hero-text h1 {
-  font-family: "Birthstone", regular;
-  font-size: 8rem;
-  letter-spacing: 3px;
+.logo-liverpool {
+  display: block;
+  margin: 0 auto 15px;   /* centrado y con espacio debajo */
+  width: 160px;           /* ajusta tamaño */
+  height: 160px;          /* igual ancho y alto */
+  border-radius: 50%;    /* 👈 lo hace circular */
+  object-fit: cover;     /* asegura que se recorte bien */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* toque glam */
 }
 
-.hero-text h2 {
-  font-family: "Birthstone", regular;
-  font-size: 3rem;
+.logo-BBVA {
+  display: block;
+  margin: 0 auto 15px;   /* centrado y con espacio debajo */
+  width: 160px;           /* ajusta tamaño */
+  height: 160px;          /* igual ancho y alto */
+  border-radius: 50%;    /* 👈 lo hace circular */
+  object-fit: cover;     /* asegura que se recorte bien */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* toque glam */
 }
 
-.section h2 {
-  font-family: "Birthstone", regular;
-  font-size: 3rem;
-}
-
-.section h3 {
-  font-family: "Birthstone", regular;
-  font-size: 2.5rem;
-}
-
-ul {
-  list-style: none;
-  font-size: 1.1rem;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  margin: 12px 0;
-}
-
-.icono {
-  width: 60px;
-  height: auto;
-  margin-bottom: 15px;
-}
-
-/* INDEX */
-#luciernagas {
+/* ----- MODAL ----- */
+.modal {
+  display: none; 
   position: fixed;
-  z-index: 2;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
 }
 
-.hero {
-  position: relative;
-  z-index: 1;
+.modal-content {
+  background: #fff;
+  border: 2px solid #c9a227;
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  margin: 10% auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: left;
+  animation: fadeIn 0.8s ease;
 }
 
-.hero-text {
-  position: relative;
-  z-index: 3;
+.cerrar {
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #c9a227;
 }
 
-.section {
-  position: relative;
-  z-index: 4;
-}
-
-
-/* ----- BASE ----- */
-body {
-  margin: 0;
-  font-family: Gabarito, sans-serif;
-  color: #30710b;
-  background: linear-gradient(
-    to bottom,
-    #050a04 0%,
-    #050a04 35%,
-    #6a6a6a 70%,
-    #f2f2f2 100%
-  );
-}
-
-/* ----- HERO ----- */
-.hero {
-  height: 100vh;
-  background: url("Assets/img/portada.png") center/cover no-repeat;
+/* ----- CONTADOR ----- */
+#contador {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
+  gap: 15px;
+  margin-top: 15px;
+}
+#contador span {
+  background: linear-gradient(135deg, #fff, #f5e28a);
+  border: 1px solid #c9a227;
+  padding: 14px;
+  border-radius: 14px;
+  min-width: 70px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+@media (max-width: 500px) {
+  #contador {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #contador span {
+    width: 45%;
+    margin-bottom: 10px;
+  }
 }
 
-.hero-text {
-  text-align: center;
-  color: white;
-  animation: fadeIn 2s ease;
+
+/* ----- TIMELINE CENTRAL ----- */
+.timeline {
   position: relative;
+  margin: 40px auto;
+  max-width: 600px;
 }
 
-/* ----- SECCIONES ----- */
-.section {
-  background: #a4cb8f;
-  max-width: 420px;
-  margin: 80px auto;
-  padding: 40px 30px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #c9a227;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
   opacity: 0;
   transform: translateY(30px);
-  transition: all 1.5s ease;
+  transition: all 1s ease;
 }
 
-.section.visible {
+.timeline-item.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ----- BOTONES ----- */
-.boton {
-  display: block;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #3b2f00;
-  background: linear-gradient(135deg, #c9a227, #f5e28a, #b8961e);
-  position: relative;
-  overflow: hidden;
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  width: 18px; height: 18px;
+  background: #f5e28a;
+  border: 2px solid #c9a227;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(201,162,39,0.6);
 }
 
-#btn-top {
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+.timeline-item.left::before {
+  right: -9px;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+.timeline-item.right::before {
+  left: -9px;
+}
+
+.timeline-item .hora {
+  display: block;
+  font-weight: bold;
+  color: #c9a227;
+  font-family: "Birthstone", cursive;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 1rem;
+  color: #3b2f00;
+}
+
+
+/* ----- BOTONES FIJOS ----- */
+#btn-musica, #btn-top {
   position: fixed;
   bottom: 20px;
-  right: 80px; /* 👈 a la izquierda del botón música */
-  width: 45px;
-  height: 45px;
   border-radius: 50%;
   border: none;
   background: #c9a227;
@@ -215,32 +374,28 @@ body {
   font-size: 20px;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+#btn-musica {
+  right: 20px;
+  width: 50px;
+  height: 50px;
+}
+#btn-top {
+  right: 80px;
+  width: 45px;
+  height: 45px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 10;
 }
-
-#btn-top.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-@media (max-width: 500px) {
-  #btn-top {
-    right: 70px;
-  }
-}
-
-
-/* visible */
 #btn-top.visible {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-
+/* ----- AVISO MÚSICA ----- */
 #aviso-musica {
   position: fixed;
   bottom: 80px;
@@ -254,14 +409,10 @@ body {
   z-index: 10;
   animation: flotito 2s ease-in-out infinite;
 }
-
-/* animación suave */
 @keyframes flotito {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
-
-/* 📱 celular */
 @media (max-width: 500px) {
   #aviso-musica {
     font-size: 0.75rem;
@@ -270,31 +421,23 @@ body {
   }
 }
 
-
 /* ----- LUCIERNAGAS ----- */
 #luciernagas {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
 }
-
 .luciernaga {
   position: absolute;
-  background: radial-gradient(circle, #ffd966, transparent 70%);
+  background: radial-gradient(circle, #fcf003, transparent 80%);
   opacity: 0;
-  animation:
-    flotar linear infinite,
-    parpadear ease-in-out infinite;
+  animation: flotar linear infinite, parpadear ease-in-out infinite;
 }
-
 @keyframes flotar {
   from { transform: translateY(100vh); }
   to { transform: translateY(-100vh); }
 }
-
 @keyframes parpadear {
   0%, 100% { opacity: 0.1; }
   50% { opacity: 0.8; }
