@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis XV Años</title>
+  
   <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Gabarito:wght@400..900&family=Pinyon+Script&display=swap" rel="stylesheet">
+  
   <!-- Iconos -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=music_note" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,10 +20,30 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-    <h1>Mis XV Años</h1>
-    <h2>Yunuem Govea Montiel</h2>
+   <h1>Yunuem Govea Montiel</h1>
+    <span class="hero-xv">XV</span>
+    <span class="hero-xv hero-xv2">Mis</span>
   </div>
 </section>
+
+
+<!-- Principio Invitación -->
+<section class="section invitacion">
+  <h3>¡Celebra este día tan maravilloso con nosotros!</h3>
+
+  <div class="invitacion-contenido">
+    <div class="invitacion-bloque padres">
+      <h4>Mis Padres</h4>
+      <p>Veronica Montiel Vallejo<br>Juan Carlos Govea Tellez</p>
+    </div>
+
+    <div class="invitacion-bloque madrina">
+      <h4>Mi Madrina</h4>
+      <p>Maria Guadalupe Montiel Vallejo</p>
+    </div>
+  </div>
+</section>
+
 
 <!-- CONTADOR -->
 <section class="section contador">
@@ -32,17 +54,6 @@
     <span><b id="minutos">0</b><small> Min</small></span>
     <span><b id="segundos">0</b><small> Seg</small></span>
   </div>
-</section>
-
-<!-- Invitación especial -->
-<section class="section">
-  <h3>¡Celebra con nosotros este día<br>tan maravilloso!</h3>
-  <p><b>Mis Padres</b><br>
-  Veronica Montiel Vallejo<br>
-  Juan Carlos Govea Tellez</p>
-
-  <p><b>Mi Madrina</b><br>
-  Maria Guadalupe Montiel Vallejo<br></p>
 </section>
 
 <!-- PROGRAMA -->
@@ -82,10 +93,26 @@
 <section class="section">
   <img src="Assets/img/ubicacion.png" class="icono" alt="Icono ubicación">
   <h3>Ubicación</h3>
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=..." 
-    width="100%" height="300" style="border:0;" allowfullscreen>
-  </iframe>
+
+  <div class="mapas">
+    <!-- Parroquia -->
+    <div class="mapa">
+      <h4>Parroquia de San Bartolomé Apóstol</h4>
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.900775721847!2d-99.5583384!3d19.416692700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d273599b543eff%3A0x7f31221de48893d2!2sParroquia%20de%20San%20Bartolom%C3%A9%20Ap%C3%B3stol!5e0!3m2!1ses!2smx!4v1768190217912!5m2!1ses!2smx"
+        width="100%" height="300" style="border:0;" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- Salón -->
+    <div class="mapa">
+      <h4>Salón de Fiestas</h4>
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d240823.22394254358!2d-99.8453568!3d19.4183299!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d2734d56b7d101%3A0xa8ebd665be975360!2zTcOkaGV0c8K0SSBTYWzDs24gJiBKYXJkw61u!5e0!3m2!1ses!2smx!4v1768190282239!5m2!1ses!2smx"
+        width="100%" height="300" style="border:0;" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
 </section>
 
 <!-- REGALOS -->
@@ -93,12 +120,9 @@
   <img src="Assets/img/regalos.png" class="icono" alt="Icono regalos">
   <h3>Mesa de Regalos</h3>
   <p>
-  Su presencia en mi fiesta<br>
-  de quince años<br>
-  es el mejor regalo<br>
-  que puedo recibir.<br><br>
-  Sin embargo,<br>
-  si desean hacerme un obsequio,<br>
+  Su presencia en mi fiesta de quince años<br>
+  es el mejor regalo que puedo recibir.<br><br>
+  Sin embargo, si desean hacerme un obsequio,<br>
   les agradezco de antemano<br>
   por su generosidad.
 </p>
@@ -163,10 +187,14 @@
 <audio id="musica" loop>
   <source src="Assets/audio/musica.mp3" type="audio/mpeg">
 </audio>
-<button id="btn-musica">🔊</button>
+<button id="btn-musica">
+  <span class="material-symbols-outlined">volume_up</span>
+</button>
 
 <!-- SUBIR ARRIBA -->
-<button id="btn-top">⬆️</button>
+<button id="btn-top">
+  <span class="material-symbols-outlined">arrow_warm_up</span>
+</button>
 
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
