@@ -35,31 +35,32 @@ btnTop.addEventListener("click", () => {
 // ========= MÚSICA =========
 const musica = document.getElementById("musica");
 const btnMusica = document.getElementById("btn-musica");
+const icono = btnMusica.querySelector(".material-symbols-outlined");
+const aviso = document.getElementById("aviso-musica");
 
 musica.volume = 0.2;
 
 window.addEventListener("load", () => {
   musica.play().catch(() => {
-    btnMusica.textContent = "🔇";
+    icono.textContent = "volume_off"; // icono inicial si autoplay falla
   });
 });
 
 btnMusica.addEventListener("click", () => {
   if (musica.paused) {
     musica.play();
-    btnMusica.textContent = "🔊";
+    icono.textContent = "volume_up";
   } else {
     musica.pause();
-    btnMusica.textContent = "🔇";
+    icono.textContent = "volume_off";
   }
+
+  // 👇 desvanecer aviso
+  aviso.style.opacity = "0";
+  setTimeout(() => {
+    aviso.style.display = "none";
+  }, 600); // coincide con la duración de la transición
 });
-
-const aviso = document.getElementById("aviso-musica");
-
-btnMusica.addEventListener("click", () => {
-  aviso.style.display = "none";
-});
-
 
 // ========= CONFIRMAR ASISTENCIA =========
 const btnConfirmar = document.getElementById("btn-confirmar");
@@ -174,9 +175,13 @@ inputUpload.addEventListener("change", async () => {
 
     const data = await res.json();
 
-    if (data.secure_url) {
-      estado.textContent = "Imagen subida correctamente ✅";
-    } else {
+  if (data.secure_url) {
+    estado.textContent = "Imagen subida correctamente ✅";
+    const img = document.createElement("img");
+    img.src = data.secure_url;
+    img.style.maxWidth = "100%";
+    document.getElementById("mural-preview").appendChild(img);
+  } else {
       estado.textContent = "Error al subir ❌";
     }
   } catch (err) {
