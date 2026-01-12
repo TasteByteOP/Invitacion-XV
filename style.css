@@ -3,8 +3,6 @@ body {
   margin: 0;
   font-family: Gabarito, sans-serif;
   color: #f780ae;
-  background: linear-gradient(180deg, #ffffff,#ffdcd1,#f780ae,#f780ae);
-  );
 }
 
 /* ----- HERO ----- */
@@ -16,29 +14,42 @@ body {
   align-items: center;
   position: relative;
 }
-/* .hero::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 0;
-} */
 .hero-text {
-  text-align: center;
-  color: white;
-  animation: fadeIn 2s ease;
   position: relative;
-  z-index: 1;
+  text-align: center;
   color: #64cccc;
+}
+
+.hero-xv {
+  font-family: "Pinyon Script", cursive;
+  font-size: 18rem;
+  background: linear-gradient(90deg, #f780ae, #c9a227);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.2; /* 👈 transparencia */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-xv2 {
+  font-size: 6rem;
+  top: -40%;
+  left: 20%;
 }
 .hero-text h1 {
   font-family: "Pinyon Script", cursive;
-  font-size: 8rem;
+  font-size: 4rem;
   letter-spacing: 3px;
+  z-index: 1;                /* 👈 delante del XV */
+  color: #c6be61
 }
 .hero-text h2 {
   font-family: "Birthstone", cursive;
   font-size: 3rem;
+  position: relative;
 }
 #nombre {
   font-family: Gabarito, sans-serif;
@@ -48,12 +59,29 @@ body {
   font-family: Gabarito, sans-serif;
   font-weight: normal;
 }
+.mapas {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* permite que se acomoden en móvil */
+}
+
+.mapa {
+  flex: 1 1 400px; /* mínimo 400px, se ajusta */
+  text-align: center;
+}
+
+.mapa h4 {
+  font-family: "Birthstone", cursive;
+  font-size: 1.8rem;
+  color: #c9a227;
+  margin-bottom: 10px;
+}
 
 /* ----- SECCIONES ----- */
 .section {
   background: #fff;
   border: 2px solid #c9a227;
-  max-width: 450px;
+  max-width: 900px;
   margin: 80px auto;
   padding: 40px 30px;
   border-radius: 20px;
@@ -96,6 +124,58 @@ body {
   margin: 6px 0;
 }
 
+/* ------ PRINCIPIO DE INVITACIÓN ----- */
+.invitacion h3 {
+  font-size: 2rem;
+  font-family: "Pinyon Script", cursive;
+  color: #f780ae;
+  margin-bottom: 30px;
+}
+
+.invitacion-contenido {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  position: relative;
+}
+
+.invitacion-bloque {
+  flex: 1 1 45%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.invitacion-bloque h4 {
+  font-family: "Birthstone", cursive;
+  font-size: 1.8rem;
+  color: #c9a227;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.invitacion-bloque p {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: #f780ae;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .invitacion-contenido {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .invitacion-bloque {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 
 /* ----- INPUTS ----- */
 label {
@@ -133,7 +213,20 @@ input[type="file"] {
   background: linear-gradient(135deg, #fff, #f5e28a);
   border: 1px solid #c9a227;
 }
+.invitacion-contenido {
+  position: relative;
+}
 
+.invitacion-contenido::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: #c9a227;
+  opacity: 0.3;
+}
 
 /* ----- LISTAS ----- */
 ul {
@@ -229,36 +322,6 @@ li {
   border-radius: 50%;    /* 👈 lo hace circular */
   object-fit: cover;     /* asegura que se recorte bien */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* toque glam */
-}
-
-/* ----- MODAL ----- */
-.modal {
-  display: none; 
-  position: fixed;
-  z-index: 100;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-}
-
-.modal-content {
-  background: #fff;
-  border: 2px solid #c9a227;
-  border-radius: 12px;
-  padding: 20px;
-  width: 80%;
-  max-width: 400px;
-  margin: 10% auto;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  text-align: left;
-  animation: fadeIn 0.8s ease;
-}
-
-.cerrar {
-  float: right;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #c9a227;
 }
 
 /* ----- CONTADOR ----- */
@@ -408,6 +471,8 @@ li {
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   z-index: 10;
   animation: flotito 2s ease-in-out infinite;
+  opacity: 1;                  /* 👈 estado inicial */
+  transition: opacity 0.6s ease; /* 👈 transición suave */
 }
 @keyframes flotito {
   0%, 100% { transform: translateY(0); }
@@ -419,6 +484,11 @@ li {
     right: 12px;
     bottom: 70px;
   }
+}
+.material-symbols-outlined {
+  font-size: 28px;
+  color: white;
+  vertical-align: middle;
 }
 
 /* ----- LUCIERNAGAS ----- */
