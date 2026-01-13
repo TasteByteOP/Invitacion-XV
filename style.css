@@ -514,6 +514,17 @@ li {
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
+/* Ajuste de botones fijos en pantallas pequeñas */
+@media (max-width: 500px) {
+  #btn-musica {
+    right: 12px;   /* más pegado al borde */
+    bottom: 20px;
+  }
+  #btn-top {
+    right: 70px;   /* menos separación para que no se salga */
+    bottom: 20px;
+  }
+}
 #btn-top.visible {
   opacity: 1;
   pointer-events: auto;
@@ -553,6 +564,7 @@ li {
   vertical-align: middle;
 }
 
+
 /* ----- LUCIERNAGAS ----- */
 #luciernagas {
   position: fixed;
@@ -573,4 +585,11 @@ li {
 @keyframes parpadear {
   0%, 100% { opacity: 0.1; }
   50% { opacity: 0.8; }
+}
+
+
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* evita scroll horizontal */
 }
