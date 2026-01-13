@@ -9,6 +9,11 @@ body {
 .hero {
   height: 100vh;
   background: url("Assets/img/portada.png") center/contain no-repeat;
+  @media (min-width: 800px) {
+    .hero {
+      background-size: cover;
+    }
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -191,14 +196,22 @@ body {
 }
 
 .invitacion-bloque {
-  flex: 0 0 auto;           /* no crecer ni ocupar 100% */
-  width: auto;              /* evita width heredado */
-  background: transparent;  /* quita el rectángulo blanco */
-  box-shadow: none;         /* quita la sombra que crea el rectángulo */
+  flex: 0 0 auto;
+  width: auto;
+  background: transparent;
+  box-shadow: none;
   border-radius: 12px;
   padding: 80px;
-  z-index: 1;               /* sitúa los bloques por encima de ::before */
+  z-index: 1;
   text-align: center;
+}
+
+/* En móvil, reduce aún más */
+@media (max-width: 600px) {
+  .invitacion-bloque {
+    padding: 20px;
+    width: 100%;   /* que ocupen todo el ancho y se apilen */
+  }
 }
 
 /* Responsivo: en pantallas pequeñas apilar verticalmente */
