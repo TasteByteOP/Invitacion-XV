@@ -9,11 +9,13 @@ body {
 .hero {
   height: 100vh;
   background: url("Assets/img/portada.png") center/contain no-repeat;
+
   @media (min-width: 800px) {
     .hero {
-      background-size: cover;
+      background-size: center/cover no-repeat;
     }
   }
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -606,3 +608,4 @@ html, body {
   max-width: 100%;
   overflow-x: hidden; /* evita scroll horizontal */
 }
+
