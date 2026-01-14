@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="Sobre/sobre.css">
   
   <!-- Tipografías -->
-  <link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Gabarito:wght@400..900&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bellota+Text:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Great+Vibes&family=Yeseva+One&display=swap" rel="stylesheet">
   
   <!-- Iconos -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -14,6 +15,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
+<script src="Sobre/sobre.js" defer></script>
 
 <div id="luciernagas"></div>
 
@@ -21,11 +24,10 @@
 <section class="hero">
   <div class="hero-text">
    <h1>Yunuem Govea Montiel</h1>
-    <span class="hero-xv">XV</span>
-    <span class="hero-xv hero-xv2">Mis</span>
+    <span class="hero-xv" aria-hidden="true">XV</span>
+    <span class="hero-xv hero-xv2" aria-hidden="true">Mis</span>
   </div>
 </section>
-
 
 <!-- Principio Invitación -->
 <section class="section invitacion">
@@ -140,7 +142,7 @@
     <div class="regalo-bloque">
       <img src="Assets/img/BBVA-logo.jpg" alt="Logo BBVA">
       <button class="boton boton2" id="btn-banco">💳 <strong>Ver datos bancarios</strong></button>
-      <div id="datos-banco" style="display:none; margin-top:15px; text-align:left;">
+      <div id="datos-banco" style="display:none; margin-top:15px; text-align:left;" aria-hidden="true">
         <p><b>Banco:</b> BBVA</p>
         <p><b>Cuenta:</b> 1234567890</p>
         <p><b>CLABE:</b> 012345678901234567</p>
@@ -188,14 +190,15 @@
 <audio id="musica" loop>
   <source src="Assets/audio/musica.mp3" type="audio/mpeg">
 </audio>
-<button id="btn-musica">
+<button id="btn-musica" aria-label="Reproducir música" title="Reproducir música">
   <span class="material-symbols-outlined">volume_up</span>
 </button>
 
 <!-- SUBIR ARRIBA -->
-<button id="btn-top">
+<button id="btn-top" aria-label="Ir arriba" title="Ir arriba">
   <span class="material-symbols-outlined">arrow_warm_up</span>
 </button>
+
 
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
