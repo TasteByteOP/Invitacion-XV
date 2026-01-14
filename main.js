@@ -1,86 +1,155 @@
+// ========= CONFIGURACIÓN Y UTILIDADES =========
+const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function safeQuery(selector) {
+  return document.querySelector(selector);
+}
+
+function safeQueryAll(selector) {
+  return Array.from(document.querySelectorAll(selector));
+}
+
+function safeGetById(id) {
+  return document.getElementById(id);
+}
+
+function isFunction(fn) {
+  return typeof fn === "function";
+}
+
 // ========= ANIMACIONES DE SECCIONES =========
-const secciones = document.querySelectorAll(".section");
+const secciones = safeQueryAll(".section");
+if (secciones.length) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("visible");
+    });
+  }, { threshold: 0.2 });
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-    }
-  });
-}, { threshold: 0.2 });
-
-secciones.forEach(sec => observer.observe(sec));
-
+  secciones.forEach(sec => observer.observe(sec));
+}
 
 // ========= SUBIR ARRIBA =========
-const btnTop = document.getElementById("btn-top");
+const btnTop = safeGetById("btn-top");
+if (btnTop) {
+  const onScroll = () => {
+    if (window.scrollY > 200) {
+      btnTop.classList.add("visible");
+    } else {
+      btnTop.classList.remove("visible");
+    }
+  };
 
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 200) {
-    btnTop.classList.add("visible");
-  } else {
-    btnTop.classList.remove("visible");
-  }
-});
+  window.addEventListener("scroll", onScroll, { passive: true });
 
-btnTop.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+  btnTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    btnTop.blur();
   });
-});
 
-
+  btnTop.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      btnTop.click();
+    }
+  });
+}
 
 // ========= MÚSICA =========
-const musica = document.getElementById("musica");
-const btnMusica = document.getElementById("btn-musica");
-const icono = btnMusica.querySelector(".material-symbols-outlined");
-const aviso = document.getElementById("aviso-musica");
+const musica = safeGetById("musica");
+const btnMusica = safeGetById("btn-musica");
+const aviso = safeGetById("aviso-musica");
 
-musica.volume = 0.2;
+if (btnMusica) {
+  btnMusica.setAttribute("role", "button");
+  btnMusica.setAttribute("aria-pressed", "false");
+}
 
-window.addEventListener("load", () => {
-  musica.play().catch(() => {
-    icono.textContent = "volume_off"; // icono inicial si autoplay falla
+if (musica) {
+  musica.volume = 0.2;
+  // Intentar autoplay pero manejar rechazo
+  window.addEventListener("load", () => {
+    if (prefersReducedMotion) {
+      // Si el usuario prefiere menos movimiento, no reproducir automáticamente
+      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
+      return;
+    }
+    musica.play().then(() => {
+      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
+    }).catch(() => {
+      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
+    });
   });
-});
+}
 
-btnMusica.addEventListener("click", () => {
-  if (musica.paused) {
-    musica.play();
-    icono.textContent = "volume_up";
-  } else {
-    musica.pause();
-    icono.textContent = "volume_off";
-  }
+if (btnMusica && musica) {
+  btnMusica.addEventListener("click", () => {
+    if (musica.paused) {
+      musica.play().catch(() => {});
+      btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
+      btnMusica.setAttribute("aria-pressed", "true");
+    } else {
+      musica.pause();
+      btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
+      btnMusica.setAttribute("aria-pressed", "false");
+    }
 
-  // 👇 desvanecer aviso
-  aviso.style.opacity = "0";
-  setTimeout(() => {
-    aviso.style.display = "none";
-  }, 600); // coincide con la duración de la transición
-});
+    if (aviso) {
+      aviso.style.opacity = "0";
+      setTimeout(() => {
+        aviso.style.display = "none";
+      }, 600);
+    }
+    btnMusica.blur();
+  });
+}
 
-// ========= CONFIRMAR ASISTENCIA =========
-const btnConfirmar = document.getElementById("btn-confirmar");
+// Reemplaza el bloque existente por este: obliga a poner nombre antes de abrir WhatsApp
+const btnConfirmar = safeGetById("btn-confirmar");
+if (btnConfirmar) {
+  btnConfirmar.addEventListener("click", () => {
+    const nombreEl = safeGetById("nombre");
+    const personasEl = safeGetById("personas");
 
-btnConfirmar.addEventListener("click", () => {
-  const nombre = document.getElementById("nombre").value || "Invitado misterioso";
-  const personas = document.getElementById("personas").value || 1;
+    const nombre = nombreEl ? nombreEl.value.trim() : "";
+    // Validación: nombre obligatorio
+    if (!nombre) {
+      if (nombreEl) {
+        // marcar visualmente el campo y enfocar
+        nombreEl.classList.add("input-error");
+        nombreEl.focus();
+        // limpiar la marca cuando el usuario escriba
+        const onInput = () => {
+          nombreEl.classList.remove("input-error");
+          nombreEl.removeEventListener("input", onInput);
+        };
+        nombreEl.addEventListener("input", onInput);
+      } else {
+        // fallback si no existe el input
+        alert("Por favor escribe tu nombre antes de confirmar.");
+      }
+      return; // no continuar hasta que haya nombre
+    }
 
-  const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV con ${personas} persona(s). 🎉`;
-  const url = `https://wa.me/527226163280?text=${encodeURIComponent(mensaje)}`;
+    const personas = (personasEl && personasEl.value) ? personasEl.value : 1;
 
-  lanzarConfetti();
-  window.open(url, "_blank");
-});
+    const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV con ${personas} persona(s). 🎉`;
+    const url = `https://wa.me/527226163280?text=${encodeURIComponent(mensaje)}`;
 
+    // lanzar confetti si existe la función
+    if (typeof lanzarConfetti === "function") {
+      try { lanzarConfetti(); } catch (e) { /* no bloquear si falla */ }
+    }
+
+    window.open(url, "_blank");
+    btnConfirmar.blur();
+  });
+}
 
 // ========= CONFETTI =========
 function lanzarConfetti() {
-  if (typeof confetti !== "function") return;
-
+  if (!isFunction(window.confetti)) return;
+  if (prefersReducedMotion) return;
   confetti({
     particleCount: 120,
     spread: 90,
@@ -88,15 +157,26 @@ function lanzarConfetti() {
   });
 }
 
-// ========= CONTADOR =========
-const fechaEvento = new Date("2026-07-01T17:00:00"); // AJUSTA FECHA Y HORA
+// Ejecutar confetti de bienvenida con precauciones
+window.addEventListener("load", () => {
+  if (!isFunction(window.confetti) || prefersReducedMotion) return;
+  confetti({
+    particleCount: 150,
+    spread: 100,
+    origin: { y: 0.6 }
+  });
+});
 
-const d = document.getElementById("dias");
-const h = document.getElementById("horas");
-const m = document.getElementById("minutos");
-const s = document.getElementById("segundos");
+// ========= CONTADOR =========
+const fechaEvento = new Date("2026-03-07T15:00:00");
+
+const d = safeGetById("dias");
+const h = safeGetById("horas");
+const m = safeGetById("minutos");
+const s = safeGetById("segundos");
 
 function actualizarContador() {
+  if (!d || !h || !m || !s) return;
   const ahora = new Date();
   const diff = fechaEvento - ahora;
 
@@ -111,107 +191,131 @@ function actualizarContador() {
   s.textContent = Math.floor((diff / 1000) % 60);
 }
 
-setInterval(actualizarContador, 1000);
-actualizarContador();
-
-
-// ===== LUCERNAGAS =====
-const TOTAL_LUCIERNAGAS = 75; // 👈 CAMBIA ESTE NÚMERO
-
-const contenedor = document.getElementById("luciernagas");
-
-for (let i = 0; i < TOTAL_LUCIERNAGAS; i++) {
-  const luz = document.createElement("div");
-  luz.classList.add("luciernaga");
-
-  const size = Math.random() * 30 + 4;
-  luz.style.width = size + "px";
-  luz.style.height = size + "px";
-
-  luz.style.left = Math.random() * 100 + "vw";
-  luz.style.top = Math.random() * 100 + "vh";
-
-  const duracion = Math.random() * 20 + 20;
-  luz.style.animationDuration = `${duracion}s, ${Math.random() * 4 + 3}s`;
-
-  contenedor.appendChild(luz);
+if (d && h && m && s) {
+  actualizarContador();
+  setInterval(actualizarContador, 1000);
 }
 
-// ===== CONFETTI =====
-window.addEventListener("load", () => {
-  confetti({
-    particleCount: 150,
-    spread: 100,
-    origin: { y: 0.6 }
-  });
-});
+// ===== LUCIÉRNAGAS =====
+const TOTAL_LUCIERNAGAS = 75;
+const contenedor = safeGetById("luciernagas");
 
+if (contenedor && !prefersReducedMotion) {
+  const maxForSmall = window.innerWidth < 800 ? 30 : TOTAL_LUCIERNAGAS;
+  const total = Math.min(TOTAL_LUCIERNAGAS, maxForSmall);
+
+  for (let i = 0; i < total; i++) {
+    const luz = document.createElement("div");
+    luz.classList.add("luciernaga");
+
+    const size = Math.random() * 30 + 4;
+    luz.style.width = size + "px";
+    luz.style.height = size + "px";
+
+    luz.style.left = Math.random() * 100 + "vw";
+    luz.style.top = Math.random() * 100 + "vh";
+
+    const duracion = Math.random() * 20 + 20;
+    luz.style.animationDuration = `${duracion}s, ${Math.random() * 4 + 3}s`;
+
+    contenedor.appendChild(luz);
+  }
+}
 
 // ===== MURAL =====
-const inputUpload = document.getElementById("upload");
-const estado = document.getElementById("estado-subida");
+const inputUpload = safeGetById("upload");
+const estado = safeGetById("estado-subida");
+const muralPreview = safeGetById("mural-preview");
 
 const CLOUD_NAME = "dxrnsitv5";
 const UPLOAD_PRESET = "mural_xv";
 
-inputUpload.addEventListener("change", async () => {
-  const file = inputUpload.files[0];
-  if (!file) return;
+if (inputUpload) {
+  inputUpload.addEventListener("change", async () => {
+    const file = inputUpload.files[0];
+    if (!file) return;
 
-  estado.textContent = "Subiendo imagen... ⏳";
+    // Validaciones básicas
+    const maxSizeMB = 5;
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      if (estado) estado.textContent = "Formato no soportado. Usa JPG PNG o WEBP.";
+      return;
+    }
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      if (estado) estado.textContent = `Archivo demasiado grande. Máx ${maxSizeMB} MB.`;
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
+    if (estado) estado.textContent = "Subiendo imagen... ⏳";
 
-  try {
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
         method: "POST",
         body: formData
+      });
+
+      const data = await res.json();
+
+      if (data && data.secure_url) {
+        if (estado) estado.textContent = "Imagen subida correctamente ✅";
+        const img = document.createElement("img");
+        img.src = data.secure_url;
+        img.alt = "Foto subida al mural";
+        img.style.maxWidth = "100%";
+        if (muralPreview) muralPreview.appendChild(img);
+      } else {
+        if (estado) estado.textContent = "Error al subir ❌";
       }
-    );
-
-    const data = await res.json();
-
-  if (data.secure_url) {
-    estado.textContent = "Imagen subida correctamente ✅";
-    const img = document.createElement("img");
-    img.src = data.secure_url;
-    img.style.maxWidth = "100%";
-    document.getElementById("mural-preview").appendChild(img);
-  } else {
-      estado.textContent = "Error al subir ❌";
-    }
-  } catch (err) {
-    estado.textContent = "Error de conexión ❌";
-  }
-});
-
-//Time Line
-const timelineItems = document.querySelectorAll(".timeline-item");
-
-const observerTimeline = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
+    } catch (err) {
+      if (estado) estado.textContent = "Error de conexión ❌";
     }
   });
-}, { threshold: 0.2 });
+}
 
-timelineItems.forEach(item => observerTimeline.observe(item));
+//Time Line
+const timelineItems = safeQueryAll(".timeline-item");
+if (timelineItems.length) {
+  const observerTimeline = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("visible");
+    });
+  }, { threshold: 0.2 });
 
-// Mostrar/ocultar datos bancarios
-const btnBanco = document.getElementById("btn-banco");
-const datosBanco = document.getElementById("datos-banco");
+  timelineItems.forEach(item => observerTimeline.observe(item));
+}
 
-btnBanco.addEventListener("click", () => {
-  if (datosBanco.style.display === "none") {
-    datosBanco.style.display = "block";
-    btnBanco.textContent = "💳 Ocultar datos bancarios";
-  } else {
-    datosBanco.style.display = "none";
-    btnBanco.textContent = "💳 Ver datos bancarios";
-  }
-});
+// Mostrar y ocultar datos bancarios con accesibilidad
+const btnBanco = safeGetById("btn-banco");
+const datosBanco = safeGetById("datos-banco");
+
+if (datosBanco) {
+  // preparar para focus cuando se muestre
+  datosBanco.setAttribute("aria-hidden", "true");
+  datosBanco.setAttribute("tabindex", "-1");
+}
+
+if (btnBanco && datosBanco) {
+  btnBanco.setAttribute("aria-expanded", "false");
+  btnBanco.addEventListener("click", () => {
+    const isHidden = datosBanco.getAttribute("aria-hidden") === "true" || datosBanco.style.display === "none";
+    if (isHidden) {
+      datosBanco.style.display = "block";
+      datosBanco.setAttribute("aria-hidden", "false");
+      btnBanco.textContent = "💳 Ocultar datos bancarios";
+      btnBanco.setAttribute("aria-expanded", "true");
+      // mover foco al contenedor para que lectores lo detecten
+      datosBanco.focus();
+    } else {
+      datosBanco.style.display = "none";
+      datosBanco.setAttribute("aria-hidden", "true");
+      btnBanco.textContent = "💳 Ver datos bancarios";
+      btnBanco.setAttribute("aria-expanded", "false");
+      btnBanco.focus();
+    }
+  });
+}
