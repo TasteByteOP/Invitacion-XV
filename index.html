@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="Sobre/sobre.css">
   
   <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Bellota+Text:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Great+Vibes&family=Yeseva+One&display=swap" rel="stylesheet">
@@ -15,8 +14,28 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
-<script src="Sobre/sobre.js" defer></script>
+
+<div id="loader">
+  <div class="loader-contenido">
+    <span class="loader-xv">XV</span>
+    <p>Cargando invitación…</p>
+  </div>
+</div>
+
+<div id="sobre-overlay">
+  <div class="sobre">
+    <div class="sello" aria-label="Abrir invitación"></div>
+      <span class="icono-click material-symbols-outlined">
+touch_app
+</span>
+
+  </div>
+</div>
+<div class="carta"></div>
+
+
+<div id="pagina" class="pagina-oculta">
+  <!-- TODO tu contenido actual va aquí -->
 
 <div id="luciernagas"></div>
 
@@ -28,6 +47,11 @@
     <span class="hero-xv hero-xv2" aria-hidden="true">Mis</span>
   </div>
 </section>
+
+<p class="frase-xv">
+  <br>
+  ¡Ha llegado el momento de soñar!<br>Con mucha alegría, te invito a celebrar mis XV años, un día lleno de magia, amor y felicidad. ✨
+</p>
 
 <!-- Principio Invitación -->
 <section class="section invitacion">
@@ -45,7 +69,6 @@
     </div>
   </div>
 </section>
-
 
 <!-- CONTADOR -->
 <section class="section contador">
@@ -185,6 +208,12 @@
   </a>
 </section>
 
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="main.js"></script>
+
+</div> <!-- PAGINA OCULTA -->
+
 <!-- MUSICA -->
 <div id="aviso-musica">Toca para activar música 🎵⬇️</div>
 <audio id="musica" loop>
@@ -198,11 +227,6 @@
 <button id="btn-top" aria-label="Ir arriba" title="Ir arriba">
   <span class="material-symbols-outlined">arrow_warm_up</span>
 </button>
-
-
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="main.js"></script>
 
 </body>
 </html>
