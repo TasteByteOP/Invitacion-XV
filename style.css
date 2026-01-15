@@ -29,6 +29,9 @@ html, body {
 h1, .hero-text h1 { font-family: var(--title-font); }
 .hero-xv, .hero-xv2 { font-family: var(--xv-font); }
 h2, .section h2, .mapa h4, h3 { font-family: var(--title-font); }
+h2 {
+  font:Great-Vibes, cursive;
+}
 
 /* Formularios y elementos de lectura */
 p, label, input, textarea, button, .boton, .boton2, .timeline-item .hora {
@@ -55,6 +58,29 @@ p, label, input, textarea, button, .boton, .boton2, .timeline-item .hora {
   text-shadow:0 2px 6px rgba(0,0,0,0.25);
   z-index:1;
 }
+
+.hero-text h1{
+  opacity:0;
+  transform:translateY(20px);
+  animation:heroEntrada 1.2s ease forwards;
+}
+
+.hero-xv{
+  animation:flotar 6s ease-in-out infinite;
+}
+
+@keyframes heroEntrada{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes flotar{
+  0%,100%{ transform:translate(-50%,-50%) translateY(0); }
+  50%{ transform:translate(-50%,-50%) translateY(-10px); }
+}
+
 
 /* Título XV (decorativo) - responsive con clamp */
 .hero-xv{
@@ -89,6 +115,15 @@ h3 {
   letter-spacing:1.3px;
 }
 
+.frase-xv {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #555;
+  font-family: var(--body-font);
+  font-style: italic;
+}
+
 .hero-text h1{ font-size:4rem; letter-spacing:3px; color:#c6be61; z-index:1; }
 .hero-text h2{ font-size:3rem; }
 
@@ -96,6 +131,13 @@ h3 {
 .mapas{ display:flex; gap:20px; flex-wrap:wrap; }
 .mapa{ flex:1 1 400px; text-align:center; }
 .mapa h4{ font-family:"Great Vibes", cursive; font-size:1.8rem; color:var(--accent); margin-bottom:10px; }
+
+
+h1, h2 {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  text-align: center;
+  word-wrap: break-word;
+}
 
 /* ------------------ SECCIONES ------------------ */
 .section{
@@ -412,22 +454,35 @@ a.boton-link:focus-visible {
 
 /* ------------------ BOTONES FIJOS ------------------ */
 #btn-musica, #btn-top{
-  position:fixed;
-  bottom:20px;
-  border-radius:50%;
-  border:none;
-  background:var(--accent);
-  color:white;
-  font-size:20px;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-  z-index:10;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  position: fixed;
+  bottom: 20px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 9999; /* 🔥 clave */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🔥 evita bugs de scroll */
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
+
 #btn-musica{ right:20px; width:50px; height:50px; }
-#btn-top{ right:80px; width:45px; height:45px; opacity:0; pointer-events:none; transition:opacity 0.4s ease, transform 0.4s ease; }
+#btn-top{
+  right: 80px;
+  width: 45px;
+  height: 45px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
 #btn-top.visible{ opacity:1; pointer-events:auto; transform:translateY(0); }
 
 @media (max-width:500px){
@@ -444,20 +499,24 @@ a.boton-link:focus-visible {
 
 /* ------------------ AVISO MÚSICA ------------------ */
 #aviso-musica{
-  position:fixed;
-  bottom:80px;
-  right:20px;
-  background:rgba(0,0,0,0.7);
-  color:white;
-  padding:8px 14px;
-  border-radius:20px;
-  font-size:0.85rem;
-  box-shadow:0 6px 20px rgba(0,0,0,0.3);
-  z-index:10;
-  animation:flotito 2s ease-in-out infinite;
-  opacity:1;
-  transition:opacity 0.6s ease;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  animation: flotito 2s ease-in-out infinite;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
+
 @keyframes flotito{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
 @media (max-width:500px){ #aviso-musica{ font-size:0.75rem; right:12px; bottom:70px; } }
 
@@ -508,3 +567,232 @@ a.boton-link:focus-visible {
 
 /* Pequeñas mejoras de rendimiento */
 .luciernaga, .timeline-item, .section{ backface-visibility:hidden; transform-origin:center; }
+
+/* CARGAR PÁGINA AL ENTRAR */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
+  transition:opacity .8s ease, visibility .8s ease;
+}
+
+#loader.oculto{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.loader-contenido{
+  text-align:center;
+  color:var(--accent);
+}
+
+.loader-xv{
+  font-family:var(--xv-font);
+  font-size:6rem;
+  animation:latido 1.5s infinite ease-in-out;
+}
+
+@keyframes latido{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+}
+
+/* Fade-In al entrar */
+.pagina-oculta {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.pagina-visible{
+  opacity: 1;
+  pointer-events:auto;
+  animation:fadeEntrada 1.5s ease forwards;
+}
+
+@keyframes fadeEntrada{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* OVERLAY DEL SOBRE */
+#sobre-overlay{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9000;
+}
+
+/* SOBRE */
+.sobre{
+  width:280px;
+  height:180px;
+  background:#fafafa;
+  border:2px solid var(--accent);
+  border-radius:8px;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+/* SELLO ROJO */
+.sello{
+  width:60px;
+  height:60px;
+  background:#b30000;
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+  transition:transform .3s ease;
+}
+
+.sello:hover{
+  transform:translate(-50%,-50%) scale(1.1);
+}
+
+/* Animación de apertura */
+.sobre.abierto{
+  animation:abrirSobre 1s ease forwards;
+}
+
+@keyframes abrirSobre{
+  to{
+    transform:scale(1.2);
+    opacity:0;
+  }
+}
+
+/* SOBRE */
+.sobre {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  background: #eaeaea;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* SOLAPA */
+.sobre::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ddd;
+  clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 0, 0 0);
+  transform-origin: top;
+  transition: transform 0.8s ease;
+  z-index: 2;
+}
+
+/* SOBRE ABIERTO */
+.sobre.abierto::before {
+  transform: rotateX(180deg);
+}
+
+/* SELLO */
+.sello {
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sobre.abierto .sello {
+  transform: scale(0);
+  opacity: 0;
+}
+
+/* CARTA */
+.carta {
+  position: absolute;
+  transform: translate(-50%, 120%);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 140px;
+  background: white;
+  border-radius: 6px;
+  transition: bottom 0.9s ease;
+  z-index: 1;
+}
+
+/* CARTA SALE */
+.sobre.abierto .carta {
+  transform: translate(-50%, 0%);
+}
+
+@keyframes shake-soft {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-5deg); }
+  40% { transform: rotate(5deg); }
+  60% { transform: rotate(-4.8deg); }
+  80% { transform: rotate(4.8deg); }
+}
+
+.sobre.atencion {
+  animation: shake-soft 0.6s ease-in-out 1;
+}
+
+.icono-click {
+  position: absolute;
+  top: 66%;
+  left: 52%;
+  transform: translate(-50%, 0);
+  font-size: 32px;
+  color: #c00;
+  animation: tap 1.2s infinite;
+  pointer-events: none;
+  z-index: 4;
+}
+
+@keyframes tap {
+  0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, 6px) scale(1.1); opacity: 1; }
+}
+
+/* desaparece al abrir */
+.sobre.abierto .icono-click {
+  opacity: 0;
+}
+
+.sobre,
+.carta,
+.sello,
+.icono-click {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+#btn-musica,
+#btn-top,
+#aviso-musica {
+  position: fixed;
+  z-index: 99999;
+}
