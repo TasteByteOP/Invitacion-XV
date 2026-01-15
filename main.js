@@ -1,3 +1,22 @@
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  if (!loader) return;
+
+  setTimeout(() => {
+    loader.classList.add("oculto");
+  }, 800);
+});
+
+const pagina = document.getElementById("pagina");
+
+const audio = document.getElementById("musica");
+
+if (audio) {
+  audio.volume = 0.4;   // 🔊 volumen real
+  audio.muted = false;  // 🔥 MUY IMPORTANTE
+}
+
+
 // ========= CONFIGURACIÓN Y UTILIDADES =========
 const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -16,6 +35,11 @@ function safeGetById(id) {
 function isFunction(fn) {
   return typeof fn === "function";
 }
+
+const musica = safeGetById("musica");
+const btnMusica = safeGetById("btn-musica");
+const aviso = safeGetById("aviso-musica");
+
 
 // ========= ANIMACIONES DE SECCIONES =========
 const secciones = safeQueryAll(".section");
@@ -56,95 +80,76 @@ if (btnTop) {
 }
 
 // ========= MÚSICA =========
-const musica = safeGetById("musica");
-const btnMusica = safeGetById("btn-musica");
-const aviso = safeGetById("aviso-musica");
-
-if (btnMusica) {
-  btnMusica.setAttribute("role", "button");
-  btnMusica.setAttribute("aria-pressed", "false");
+if (btnMusica && audio && iconoMusica) {
+  btnMusica.addEventListener("click", async () => {
+    try {
+      if (audio.paused) {
+        await audio.play();
+        iconoMusica.textContent = "volume_up";
+        if (avisoMusica) avisoMusica.style.opacity = "0";
+      } else {
+        audio.pause();
+        iconoMusica.textContent = "volume_off";
+      }
+    } catch (e) {
+      console.log("Audio bloqueado:", e);
+    }
+  });
 }
 
-if (musica) {
-  musica.volume = 0.2;
-  // Intentar autoplay pero manejar rechazo
-  window.addEventListener("load", () => {
-    if (prefersReducedMotion) {
-      // Si el usuario prefiere menos movimiento, no reproducir automáticamente
-      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
-      return;
-    }
-    musica.play().then(() => {
-      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
-    }).catch(() => {
-      if (btnMusica) btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
+
+  // -------- BOTÓN SUBIR --------
+  if (btnTop) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        btnTop.classList.add("visible");
+      } else {
+        btnTop.classList.remove("visible");
+      }
     });
-  });
-}
 
-if (btnMusica && musica) {
-  btnMusica.addEventListener("click", () => {
-    if (musica.paused) {
-      musica.play().catch(() => {});
-      btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
-      btnMusica.setAttribute("aria-pressed", "true");
-    } else {
-      musica.pause();
-      btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_off";
-      btnMusica.setAttribute("aria-pressed", "false");
-    }
+    btnTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
-    if (aviso) {
-      aviso.style.opacity = "0";
-      setTimeout(() => {
-        aviso.style.display = "none";
-      }, 600);
-    }
-    btnMusica.blur();
-  });
-}
 
-// Reemplaza el bloque existente por este: obliga a poner nombre antes de abrir WhatsApp
 const btnConfirmar = safeGetById("btn-confirmar");
+const estadoConfirmacion = safeGetById("estado-confirmacion");
+
 if (btnConfirmar) {
   btnConfirmar.addEventListener("click", () => {
     const nombreEl = safeGetById("nombre");
     const personasEl = safeGetById("personas");
 
     const nombre = nombreEl ? nombreEl.value.trim() : "";
-    // Validación: nombre obligatorio
     if (!nombre) {
-      if (nombreEl) {
-        // marcar visualmente el campo y enfocar
-        nombreEl.classList.add("input-error");
-        nombreEl.focus();
-        // limpiar la marca cuando el usuario escriba
-        const onInput = () => {
-          nombreEl.classList.remove("input-error");
-          nombreEl.removeEventListener("input", onInput);
-        };
-        nombreEl.addEventListener("input", onInput);
-      } else {
-        // fallback si no existe el input
-        alert("Por favor escribe tu nombre antes de confirmar.");
-      }
-      return; // no continuar hasta que haya nombre
+      nombreEl.focus();
+      return;
     }
 
-    const personas = (personasEl && personasEl.value) ? personasEl.value : 1;
+    const personas = personasEl && personasEl.value ? personasEl.value : 1;
+
+    if (estadoConfirmacion) {
+      estadoConfirmacion.textContent = "¡Gracias por confirmar 💖!";
+    }
+
+    btnConfirmar.disabled = true;
+    btnConfirmar.style.opacity = "0.6";
 
     const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV con ${personas} persona(s). 🎉`;
-    const url = `https://wa.me/527226163280?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/527224071587?text=${encodeURIComponent(mensaje)}`;
 
-    // lanzar confetti si existe la función
-    if (typeof lanzarConfetti === "function") {
-      try { lanzarConfetti(); } catch (e) { /* no bloquear si falla */ }
-    }
+    lanzarConfetti();
 
-    window.open(url, "_blank");
-    btnConfirmar.blur();
+setTimeout(() => {
+  window.open(url, "_blank");
+}, 1000); // 1 segundo
+
   });
 }
+
+
 
 // ========= CONFETTI =========
 function lanzarConfetti() {
@@ -319,3 +324,74 @@ if (btnBanco && datosBanco) {
     }
   });
 }
+
+// ========= SOBRE + DESBLOQUEO DE PÁGINA =========
+const sobreOverlay = safeGetById("sobre-overlay");
+const sello = document.querySelector(".sello");
+const sobre = document.querySelector(".sobre");
+
+// La página inicia oculta
+if (pagina) {
+  pagina.classList.add("pagina-oculta");
+}
+
+if (sello && sobreOverlay && pagina) {
+  sello.addEventListener("click", async () => {
+
+    // Iniciar música con gesto del usuario
+    if (musica && musica.paused) {
+      try {
+        await musica.play();
+        if (btnMusica) {
+          btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
+          btnMusica.setAttribute("aria-pressed", "true");
+        }
+        if (aviso) {
+          aviso.style.opacity = "0";
+          setTimeout(() => aviso.style.display = "none", 600);
+        }
+      } catch (e) {
+        console.log("Audio bloqueado:", e);
+      }
+    }
+
+    // Animar sobre
+    if (sobre) sobre.classList.add("abierto");
+
+    // Mostrar página
+    setTimeout(() => {
+  sobreOverlay.style.display = "none";
+  sobreOverlay.style.pointerEvents = "none";
+
+  pagina.classList.remove("pagina-oculta");
+  pagina.classList.add("pagina-visible");
+
+  document.body.style.overflow = "auto"; // 🔥 CLAVE
+
+  lanzarConfetti();
+}, 1000);
+
+  });
+}
+
+// Sacudida del sobre para llamar la atención
+if (sobre) {
+  setInterval(() => {
+    if (!sobre.classList.contains("abierto")) {
+      sobre.classList.remove("atencion");
+      void sobre.offsetWidth;
+      sobre.classList.add("atencion");
+    }
+  }, 2500);
+}
+
+// ========= PANTALLA DE CARGA =========
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  if (!loader) return;
+
+  setTimeout(() => {
+    loader.classList.add("oculto");
+  }, 800); // puedes ajustar el tiempo
+});
+
