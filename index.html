@@ -3,66 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XV Años - Yunuem Govea Montiel</title>
   
   <!-- Tipografías -->
-  <link href="https://fonts.googleapis.com/css2?family=Bellota+Text:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Great+Vibes&family=Yeseva+One&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bellota+Text:wght@300;400;700&family=Great+Vibes&family=Yeseva+One&display=swap" rel="stylesheet">
   
   <!-- Iconos -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
   
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="loader">
-  <div class="loader-contenido">
-    <span class="loader-xv">XV</span>
-    <p>Cargando invitación…</p>
+<!-- PANTALLA DE CARGA -->
+<div id="loading-screen" aria-hidden="true">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando...</p>
   </div>
 </div>
 
-<div id="sobre-overlay">
-  <div class="sobre">
-    <div class="sello" aria-label="Abrir invitación"></div>
-      <span class="icono-click material-symbols-outlined">
-touch_app
-</span>
-
+<!-- PANTALLA DEL SOBRE -->
+<div id="envelope-screen" aria-hidden="true">
+  <div class="envelope-container">
+    <img src="Assets/img/Sobre.PNG" alt="Sobre de invitación" class="envelope-image" id="envelope-image">
+    <video id="envelope-video" class="envelope-video" muted playsinline>
+      <source src="Assets/vid/Sobre.webm" type="video/webm">
+    </video>
+    <p class="envelope-hint">Toca el sobre para abrirlo</p>
   </div>
 </div>
-<div class="carta"></div>
 
+<!-- CONTENIDO PRINCIPAL -->
+<div id="main-content" class="main-content-hidden">
 
-<div id="pagina" class="pagina-oculta">
-  <!-- TODO tu contenido actual va aquí -->
+<!-- Background decorativo -->
+<div class="bg-wrapper" aria-hidden="true">
+  <div class="bg-inicio"></div>
+  <div class="bg-cuerpo"></div>
+  <div class="bg-final"></div>
+</div>
 
-<div id="luciernagas"></div>
+<!-- Contenedor de luciérnagas -->
+<div id="luciernagas" aria-hidden="true"></div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-   <h1>Yunuem Govea Montiel</h1>
+    <h1>Yunuem Govea Montiel</h1>
     <span class="hero-xv" aria-hidden="true">XV</span>
     <span class="hero-xv hero-xv2" aria-hidden="true">Mis</span>
   </div>
 </section>
 
-<p class="frase-xv">
-  <br>
-  ¡Ha llegado el momento de soñar!<br>Con mucha alegría, te invito a celebrar mis XV años, un día lleno de magia, amor y felicidad. ✨
-</p>
-
-<!-- Principio Invitación -->
+<!-- INVITACIÓN -->
 <section class="section invitacion">
   <h3>¡Celebra este día tan maravilloso con nosotros!</h3>
-
   <div class="invitacion-contenido">
     <div class="invitacion-bloque padres">
       <h4>Mis Padres</h4>
       <p>Veronica Montiel Vallejo<br>Juan Carlos Govea Tellez</p>
     </div>
-
     <div class="invitacion-bloque madrina">
       <h4>Mi Madrina</h4>
       <p>Maria Guadalupe Montiel Vallejo</p>
@@ -85,7 +89,6 @@ touch_app
 <section class="section">
   <img src="Assets/img/misa.png" class="icono" alt="Icono misa">
   <h3>Programa</h3>
-
   <div class="timeline">
     <div class="timeline-item left">
       <span class="hora">3:30 PM</span>
@@ -118,23 +121,29 @@ touch_app
 <section class="section">
   <img src="Assets/img/ubicacion.png" class="icono" alt="Icono ubicación">
   <h3>Ubicación</h3>
-
   <div class="mapas">
-    <!-- Parroquia -->
     <div class="mapa">
       <h4>Parroquia de San Bartolomé Apóstol</h4>
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.900775721847!2d-99.5583384!3d19.416692700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d273599b543eff%3A0x7f31221de48893d2!2sParroquia%20de%20San%20Bartolom%C3%A9%20Ap%C3%B3stol!5e0!3m2!1ses!2smx!4v1768190217912!5m2!1ses!2smx"
-        width="100%" height="300" style="border:0;" allowfullscreen loading="lazy">
+        width="100%" 
+        height="300" 
+        style="border:0;" 
+        allowfullscreen 
+        loading="lazy"
+        title="Mapa de la Parroquia de San Bartolomé Apóstol">
       </iframe>
     </div>
-
-    <!-- Salón -->
     <div class="mapa">
       <h4>Salón de Fiestas</h4>
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d240823.22394254358!2d-99.8453568!3d19.4183299!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d2734d56b7d101%3A0xa8ebd665be975360!2zTcOkaGV0c8K0SSBTYWzDs24gJiBKYXJkw61u!5e0!3m2!1ses!2smx!4v1768190282239!5m2!1ses!2smx"
-        width="100%" height="300" style="border:0;" allowfullscreen loading="lazy">
+        width="100%" 
+        height="300" 
+        style="border:0;" 
+        allowfullscreen 
+        loading="lazy"
+        title="Mapa del Salón de Fiestas">
       </iframe>
     </div>
   </div>
@@ -151,21 +160,19 @@ touch_app
     les agradezco de antemano<br>
     por su generosidad.
   </p>
-
   <div class="regalos-opciones">
-    <!-- Bloque Liverpool -->
     <div class="regalo-bloque">
       <img src="Assets/img/liverpool-logo.png" alt="Logo Liverpool">
-      <a class="boton" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51912260" target="_blank">
+      <a class="boton" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51912260" target="_blank" rel="noopener noreferrer">
         🎁 Ver mesa de regalos en Liverpool
       </a>
     </div>
-
-    <!-- Bloque BBVA -->
     <div class="regalo-bloque">
       <img src="Assets/img/BBVA-logo.jpg" alt="Logo BBVA">
-      <button class="boton boton2" id="btn-banco">💳 <strong>Ver datos bancarios</strong></button>
-      <div id="datos-banco" style="display:none; margin-top:15px; text-align:left;" aria-hidden="true">
+      <button class="boton boton2" id="btn-banco" aria-expanded="false" aria-controls="datos-banco">
+        💳 <strong>Ver datos bancarios</strong>
+      </button>
+      <div id="datos-banco" style="display:none; margin-top:15px; text-align:left;" aria-hidden="true" tabindex="-1">
         <p><b>Banco:</b> BBVA</p>
         <p><b>Cuenta:</b> 1234567890</p>
         <p><b>CLABE:</b> 012345678901234567</p>
@@ -175,58 +182,52 @@ touch_app
   </div>
 </section>
 
-<!-- CONFIRMAR -->
+<!-- CONFIRMAR ASISTENCIA -->
 <section class="section">
   <img src="Assets/img/confirmar.png" class="icono" alt="Icono confirmar">
   <h3>Confirmar Asistencia</h3>
-
   <label for="nombre">Escribe tu nombre aquí:</label>
-  <input id="nombre" placeholder="Tu nombre">
-
+  <input id="nombre" type="text" placeholder="Tu nombre" autocomplete="name">
   <label for="personas">¿Cuántas personas asistirán contigo?</label>
   <input id="personas" type="number" min="1" placeholder="Número de invitados">
-
   <button class="boton boton2 whatsapp" id="btn-confirmar">
     Confirmar por WhatsApp
   </button>
-  <p id="estado-confirmacion"></p>
+  <p id="estado-confirmacion" aria-live="polite"></p>
 </section>
 
-<!-- MURAL -->
+<!-- MURAL DE RECUERDOS -->
 <section class="section">
   <h2>Mural de Recuerdos</h2>
-
   <label for="upload">Sube tu foto aquí:</label>
   <input type="file" id="upload" accept="image/*">
-
-  <p id="estado-subida"></p>
+  <p id="estado-subida" aria-live="polite"></p>
   <div id="mural-preview"></div>
-
-  <a href="https://collection.cloudinary.com/dxrnsitv5/aa33436d8e70996a67a4edcef0ec174a" 
-     class="boton" target="_blank">
+  <a href="https://collection.cloudinary.com/dxrnsitv5/aa33436d8e70996a67a4edcef0ec174a" class="boton" target="_blank" rel="noopener noreferrer">
     Ver mural completo
   </a>
 </section>
 
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="main.js"></script>
-
-</div> <!-- PAGINA OCULTA -->
-
-<!-- MUSICA -->
-<div id="aviso-musica">Toca para activar música 🎵⬇️</div>
-<audio id="musica" loop>
+<!-- CONTROLES DE MÚSICA -->
+<div id="aviso-musica" aria-hidden="true">Toca para activar música 🎵⬇️</div>
+<audio id="musica" loop preload="none">
   <source src="Assets/audio/musica.mp3" type="audio/mpeg">
 </audio>
-<button id="btn-musica" aria-label="Reproducir música" title="Reproducir música">
+<button id="btn-musica" aria-label="Reproducir música" aria-pressed="false" title="Reproducir música">
   <span class="material-symbols-outlined">volume_up</span>
 </button>
 
-<!-- SUBIR ARRIBA -->
+<!-- BOTÓN SUBIR ARRIBA -->
 <button id="btn-top" aria-label="Ir arriba" title="Ir arriba">
   <span class="material-symbols-outlined">arrow_warm_up</span>
 </button>
+
+<!-- Cierre del contenido principal -->
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+<script src="main.js" defer></script>
 
 </body>
 </html>
