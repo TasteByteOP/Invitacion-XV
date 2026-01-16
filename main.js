@@ -1,254 +1,356 @@
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  if (!loader) return;
+// ========= CONFIGURACIÓN =========
+const FECHA_EVENTO = new Date("2026-03-07T15:00:00");
+const WHATSAPP_NUMERO = "527226163280";
+const CLOUDINARY_CONFIG = {
+  cloudName: "dxrnsitv5",
+  uploadPreset: "mural_xv"
+};
+const LUCIERNAGAS_CONFIG = {
+  total: 75,
+  maxMobile: 30,
+  mobileBreakpoint: 800
+};
+const LOADING_DURATION = 2000; // 2 segundos de pantalla de carga
 
+// Detectar preferencia de movimiento reducido
+const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+// ========= UTILIDADES =========
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+const $id = (id) => document.getElementById(id);
+
+// ========= SECUENCIA DE INICIO (Loading -> Sobre -> Contenido) =========
+function initLoadingSequence() {
+  const loadingScreen = $id("loading-screen");
+  const envelopeScreen = $id("envelope-screen");
+  const mainContent = $id("main-content");
+  const envelopeImage = $id("envelope-image");
+  const envelopeVideo = $id("envelope-video");
+  const envelopeHint = $(".envelope-hint");
+  const envelopeContainer = $(".envelope-container");
+
+  if (!loadingScreen || !envelopeScreen || !mainContent) return;
+
+  // Paso 1: Mostrar pantalla de carga por 2 segundos
   setTimeout(() => {
-    loader.classList.add("oculto");
-  }, 800);
-});
+    // Ocultar pantalla de carga
+    loadingScreen.classList.add("hidden");
+    
+    // Mostrar pantalla del sobre
+    envelopeScreen.classList.add("visible");
+  }, LOADING_DURATION);
 
-const pagina = document.getElementById("pagina");
+  // Paso 2: Manejar clic en el sobre
+  if (envelopeContainer) {
+    envelopeContainer.addEventListener("click", handleEnvelopeClick);
+  }
 
-const audio = document.getElementById("musica");
+  function handleEnvelopeClick() {
+    // Evitar múltiples clics
+    envelopeContainer.removeEventListener("click", handleEnvelopeClick);
+    
+    // Ocultar imagen del sobre y hint
+    if (envelopeImage) envelopeImage.classList.add("hidden");
+    if (envelopeHint) envelopeHint.classList.add("hidden");
+    
+    // Mostrar y reproducir video
+    if (envelopeVideo) {
+      envelopeVideo.classList.add("visible");
+      envelopeVideo.play().catch(() => {
+        // Si el video falla, ir directamente al contenido
+        revealMainContent();
+      });
+      
+      // Cuando termine el video, mostrar contenido principal
+      envelopeVideo.addEventListener("ended", revealMainContent);
+    } else {
+      // Si no hay video, ir directamente al contenido
+      revealMainContent();
+    }
+  }
 
-if (audio) {
-  audio.volume = 0.4;   // 🔊 volumen real
-  audio.muted = false;  // 🔥 MUY IMPORTANTE
+  function revealMainContent() {
+    // Ocultar pantalla del sobre
+    envelopeScreen.classList.add("hidden");
+    envelopeScreen.classList.remove("visible");
+    
+    // Mostrar contenido principal con fade-in
+    mainContent.classList.remove("main-content-hidden");
+    mainContent.classList.add("visible");
+    
+    // Iniciar música automáticamente después de abrir el sobre
+    startMusicAfterEnvelope();
+    
+    // Disparar confetti de bienvenida
+    triggerWelcomeConfetti();
+  }
 }
 
-
-// ========= CONFIGURACIÓN Y UTILIDADES =========
-const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function safeQuery(selector) {
-  return document.querySelector(selector);
+// ========= MÚSICA DESPUÉS DEL SOBRE =========
+function startMusicAfterEnvelope() {
+  const musica = $id("musica");
+  const btnMusica = $id("btn-musica");
+  const aviso = $id("aviso-musica");
+  
+  if (!musica || prefersReducedMotion) return;
+  
+  const iconElement = btnMusica?.querySelector(".material-symbols-outlined");
+  
+  musica.play()
+    .then(() => {
+      // Actualizar icono a "reproduciendo"
+      if (iconElement) iconElement.textContent = "volume_up";
+      if (btnMusica) btnMusica.setAttribute("aria-pressed", "true");
+      
+      // Ocultar aviso de música
+      if (aviso) {
+        aviso.style.opacity = "0";
+        setTimeout(() => {
+          aviso.style.display = "none";
+        }, 600);
+      }
+    })
+    .catch(() => {
+      // Si falla el autoplay, mantener el icono en silencio
+      if (iconElement) iconElement.textContent = "volume_off";
+      if (btnMusica) btnMusica.setAttribute("aria-pressed", "false");
+    });
 }
 
-function safeQueryAll(selector) {
-  return Array.from(document.querySelectorAll(selector));
+// ========= CONFETTI DE BIENVENIDA (separado para control) =========
+function triggerWelcomeConfetti() {
+  if (typeof window.confetti !== "function" || prefersReducedMotion) return;
+  
+  window.confetti({
+    particleCount: 150,
+    spread: 100,
+    origin: { y: 0.6 }
+  });
 }
-
-function safeGetById(id) {
-  return document.getElementById(id);
-}
-
-function isFunction(fn) {
-  return typeof fn === "function";
-}
-
-const musica = safeGetById("musica");
-const btnMusica = safeGetById("btn-musica");
-const aviso = safeGetById("aviso-musica");
-
 
 // ========= ANIMACIONES DE SECCIONES =========
-const secciones = safeQueryAll(".section");
-if (secciones.length) {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add("visible");
-    });
-  }, { threshold: 0.2 });
+function initSectionAnimations() {
+  const secciones = $$(".section");
+  if (!secciones.length) return;
 
-  secciones.forEach(sec => observer.observe(sec));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  secciones.forEach((sec) => observer.observe(sec));
 }
 
-// ========= SUBIR ARRIBA =========
-const btnTop = safeGetById("btn-top");
-if (btnTop) {
-  const onScroll = () => {
-    if (window.scrollY > 200) {
-      btnTop.classList.add("visible");
-    } else {
-      btnTop.classList.remove("visible");
-    }
+// ========= BOTÓN SUBIR ARRIBA =========
+function initScrollToTop() {
+  const btnTop = $id("btn-top");
+  if (!btnTop) return;
+
+  const toggleVisibility = () => {
+    btnTop.classList.toggle("visible", window.scrollY > 200);
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", toggleVisibility, { passive: true });
 
   btnTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     btnTop.blur();
   });
-
-  btnTop.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      btnTop.click();
-    }
-  });
 }
 
 // ========= MÚSICA =========
-if (btnMusica && audio && iconoMusica) {
-  btnMusica.addEventListener("click", async () => {
-    try {
-      if (audio.paused) {
-        await audio.play();
-        iconoMusica.textContent = "volume_up";
-        if (avisoMusica) avisoMusica.style.opacity = "0";
-      } else {
-        audio.pause();
-        iconoMusica.textContent = "volume_off";
-      }
-    } catch (e) {
-      console.log("Audio bloqueado:", e);
+function initMusicPlayer() {
+  const musica = $id("musica");
+  const btnMusica = $id("btn-musica");
+  const aviso = $id("aviso-musica");
+
+  if (!musica || !btnMusica) return;
+
+  musica.volume = 0.2;
+  const iconElement = btnMusica.querySelector(".material-symbols-outlined");
+
+  const updateIcon = (isPlaying) => {
+    if (iconElement) {
+      iconElement.textContent = isPlaying ? "volume_up" : "volume_off";
     }
+    btnMusica.setAttribute("aria-pressed", isPlaying.toString());
+  };
+
+  const hideNotice = () => {
+    if (aviso) {
+      aviso.style.opacity = "0";
+      setTimeout(() => {
+        aviso.style.display = "none";
+      }, 600);
+    }
+  };
+
+  // NO intentar autoplay al cargar - ahora se maneja después del sobre
+  // Solo configurar el estado inicial del icono
+  updateIcon(false);
+
+  // Toggle música al hacer clic (sigue funcionando normalmente)
+  btnMusica.addEventListener("click", () => {
+    if (musica.paused) {
+      musica.play().catch(() => {});
+      updateIcon(true);
+    } else {
+      musica.pause();
+      updateIcon(false);
+    }
+    hideNotice();
+    btnMusica.blur();
   });
 }
 
+// ========= CONFIRMACIÓN WHATSAPP =========
+function initConfirmation() {
+  const btnConfirmar = $id("btn-confirmar");
+  if (!btnConfirmar) return;
 
-  // -------- BOTÓN SUBIR --------
-  if (btnTop) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        btnTop.classList.add("visible");
-      } else {
-        btnTop.classList.remove("visible");
-      }
-    });
-
-    btnTop.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-
-const btnConfirmar = safeGetById("btn-confirmar");
-const estadoConfirmacion = safeGetById("estado-confirmacion");
-
-if (btnConfirmar) {
   btnConfirmar.addEventListener("click", () => {
-    const nombreEl = safeGetById("nombre");
-    const personasEl = safeGetById("personas");
+    const nombreEl = $id("nombre");
+    const personasEl = $id("personas");
+    const nombre = nombreEl?.value.trim() || "";
 
-    const nombre = nombreEl ? nombreEl.value.trim() : "";
+    // Validación: nombre obligatorio
     if (!nombre) {
-      nombreEl.focus();
+      if (nombreEl) {
+        nombreEl.classList.add("input-error");
+        nombreEl.focus();
+        
+        const removeError = () => {
+          nombreEl.classList.remove("input-error");
+          nombreEl.removeEventListener("input", removeError);
+        };
+        nombreEl.addEventListener("input", removeError);
+      }
       return;
     }
 
-    const personas = personasEl && personasEl.value ? personasEl.value : 1;
-
-    if (estadoConfirmacion) {
-      estadoConfirmacion.textContent = "¡Gracias por confirmar 💖!";
-    }
-
-    btnConfirmar.disabled = true;
-    btnConfirmar.style.opacity = "0.6";
-
+    const personas = personasEl?.value || 1;
     const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV con ${personas} persona(s). 🎉`;
-    const url = `https://wa.me/527224071587?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
 
+    // Lanzar confetti si está disponible
     lanzarConfetti();
 
-setTimeout(() => {
-  window.open(url, "_blank");
-}, 1000); // 1 segundo
-
+    window.open(url, "_blank");
+    btnConfirmar.blur();
   });
 }
 
-
-
 // ========= CONFETTI =========
 function lanzarConfetti() {
-  if (!isFunction(window.confetti)) return;
-  if (prefersReducedMotion) return;
-  confetti({
+  if (typeof window.confetti !== "function" || prefersReducedMotion) return;
+  
+  window.confetti({
     particleCount: 120,
     spread: 90,
     origin: { y: 0.7 }
   });
 }
 
-// Ejecutar confetti de bienvenida con precauciones
-window.addEventListener("load", () => {
-  if (!isFunction(window.confetti) || prefersReducedMotion) return;
-  confetti({
-    particleCount: 150,
-    spread: 100,
-    origin: { y: 0.6 }
-  });
-});
+// initWelcomeConfetti ya no se usa - el confetti ahora se dispara en triggerWelcomeConfetti()
+// después de que el sobre se abre
 
 // ========= CONTADOR =========
-const fechaEvento = new Date("2026-03-07T15:00:00");
+function initCountdown() {
+  const elementos = {
+    dias: $id("dias"),
+    horas: $id("horas"),
+    minutos: $id("minutos"),
+    segundos: $id("segundos")
+  };
 
-const d = safeGetById("dias");
-const h = safeGetById("horas");
-const m = safeGetById("minutos");
-const s = safeGetById("segundos");
+  // Verificar que todos los elementos existan
+  if (!Object.values(elementos).every(Boolean)) return;
 
-function actualizarContador() {
-  if (!d || !h || !m || !s) return;
-  const ahora = new Date();
-  const diff = fechaEvento - ahora;
+  const actualizar = () => {
+    const ahora = new Date();
+    const diff = FECHA_EVENTO - ahora;
 
-  if (diff <= 0) {
-    d.textContent = h.textContent = m.textContent = s.textContent = 0;
-    return;
-  }
+    if (diff <= 0) {
+      Object.values(elementos).forEach((el) => (el.textContent = "0"));
+      return;
+    }
 
-  d.textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
-  h.textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  m.textContent = Math.floor((diff / (1000 * 60)) % 60);
-  s.textContent = Math.floor((diff / 1000) % 60);
+    const MS_POR_SEGUNDO = 1000;
+    const MS_POR_MINUTO = MS_POR_SEGUNDO * 60;
+    const MS_POR_HORA = MS_POR_MINUTO * 60;
+    const MS_POR_DIA = MS_POR_HORA * 24;
+
+    elementos.dias.textContent = Math.floor(diff / MS_POR_DIA);
+    elementos.horas.textContent = Math.floor((diff / MS_POR_HORA) % 24);
+    elementos.minutos.textContent = Math.floor((diff / MS_POR_MINUTO) % 60);
+    elementos.segundos.textContent = Math.floor((diff / MS_POR_SEGUNDO) % 60);
+  };
+
+  actualizar();
+  setInterval(actualizar, 1000);
 }
 
-if (d && h && m && s) {
-  actualizarContador();
-  setInterval(actualizarContador, 1000);
-}
+// ========= LUCIÉRNAGAS =========
+function initFireflies() {
+  const contenedor = $id("luciernagas");
+  if (!contenedor || prefersReducedMotion) return;
 
-// ===== LUCIÉRNAGAS =====
-const TOTAL_LUCIERNAGAS = 75;
-const contenedor = safeGetById("luciernagas");
+  const { total, maxMobile, mobileBreakpoint } = LUCIERNAGAS_CONFIG;
+  const cantidad = window.innerWidth < mobileBreakpoint 
+    ? Math.min(total, maxMobile) 
+    : total;
 
-if (contenedor && !prefersReducedMotion) {
-  const maxForSmall = window.innerWidth < 800 ? 30 : TOTAL_LUCIERNAGAS;
-  const total = Math.min(TOTAL_LUCIERNAGAS, maxForSmall);
+  const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < cantidad; i++) {
     const luz = document.createElement("div");
     luz.classList.add("luciernaga");
 
     const size = Math.random() * 30 + 4;
-    luz.style.width = size + "px";
-    luz.style.height = size + "px";
+    luz.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}vw;
+      top: ${Math.random() * 100}vh;
+      animation-duration: ${Math.random() * 20 + 20}s, ${Math.random() * 4 + 3}s;
+    `;
 
-    luz.style.left = Math.random() * 100 + "vw";
-    luz.style.top = Math.random() * 100 + "vh";
-
-    const duracion = Math.random() * 20 + 20;
-    luz.style.animationDuration = `${duracion}s, ${Math.random() * 4 + 3}s`;
-
-    contenedor.appendChild(luz);
+    fragment.appendChild(luz);
   }
+
+  contenedor.appendChild(fragment);
 }
 
-// ===== MURAL =====
-const inputUpload = safeGetById("upload");
-const estado = safeGetById("estado-subida");
-const muralPreview = safeGetById("mural-preview");
+// ========= MURAL DE FOTOS =========
+function initPhotoUpload() {
+  const inputUpload = $id("upload");
+  const estado = $id("estado-subida");
+  const muralPreview = $id("mural-preview");
 
-const CLOUD_NAME = "dxrnsitv5";
-const UPLOAD_PRESET = "mural_xv";
+  if (!inputUpload) return;
 
-if (inputUpload) {
+  const MAX_SIZE_MB = 5;
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
   inputUpload.addEventListener("change", async () => {
     const file = inputUpload.files[0];
     if (!file) return;
 
-    // Validaciones básicas
-    const maxSizeMB = 5;
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-    if (!allowedTypes.includes(file.type)) {
-      if (estado) estado.textContent = "Formato no soportado. Usa JPG PNG o WEBP.";
+    // Validaciones
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      if (estado) estado.textContent = "Formato no soportado. Usa JPG, PNG o WEBP.";
       return;
     }
-    if (file.size > maxSizeMB * 1024 * 1024) {
-      if (estado) estado.textContent = `Archivo demasiado grande. Máx ${maxSizeMB} MB.`;
+
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      if (estado) estado.textContent = `Archivo demasiado grande. Máx ${MAX_SIZE_MB} MB.`;
       return;
     }
 
@@ -256,142 +358,93 @@ if (inputUpload) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
+    formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
 
     try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-        method: "POST",
-        body: formData
-      });
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+        { method: "POST", body: formData }
+      );
 
       const data = await res.json();
 
-      if (data && data.secure_url) {
+      if (data?.secure_url) {
         if (estado) estado.textContent = "Imagen subida correctamente ✅";
-        const img = document.createElement("img");
-        img.src = data.secure_url;
-        img.alt = "Foto subida al mural";
-        img.style.maxWidth = "100%";
-        if (muralPreview) muralPreview.appendChild(img);
+        
+        if (muralPreview) {
+          const img = document.createElement("img");
+          img.src = data.secure_url;
+          img.alt = "Foto subida al mural";
+          img.style.maxWidth = "100%";
+          muralPreview.appendChild(img);
+        }
       } else {
         if (estado) estado.textContent = "Error al subir ❌";
       }
-    } catch (err) {
+    } catch {
       if (estado) estado.textContent = "Error de conexión ❌";
     }
   });
 }
 
-//Time Line
-const timelineItems = safeQueryAll(".timeline-item");
-if (timelineItems.length) {
-  const observerTimeline = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add("visible");
-    });
-  }, { threshold: 0.2 });
+// ========= TIMELINE =========
+function initTimeline() {
+  const timelineItems = $$(".timeline-item");
+  if (!timelineItems.length) return;
 
-  timelineItems.forEach(item => observerTimeline.observe(item));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  timelineItems.forEach((item) => observer.observe(item));
 }
 
-// Mostrar y ocultar datos bancarios con accesibilidad
-const btnBanco = safeGetById("btn-banco");
-const datosBanco = safeGetById("datos-banco");
+// ========= DATOS BANCARIOS =========
+function initBankDetails() {
+  const btnBanco = $id("btn-banco");
+  const datosBanco = $id("datos-banco");
 
-if (datosBanco) {
-  // preparar para focus cuando se muestre
-  datosBanco.setAttribute("aria-hidden", "true");
-  datosBanco.setAttribute("tabindex", "-1");
-}
+  if (!btnBanco || !datosBanco) return;
 
-if (btnBanco && datosBanco) {
-  btnBanco.setAttribute("aria-expanded", "false");
   btnBanco.addEventListener("click", () => {
-    const isHidden = datosBanco.getAttribute("aria-hidden") === "true" || datosBanco.style.display === "none";
+    const isHidden = datosBanco.getAttribute("aria-hidden") === "true";
+
     if (isHidden) {
       datosBanco.style.display = "block";
       datosBanco.setAttribute("aria-hidden", "false");
-      btnBanco.textContent = "💳 Ocultar datos bancarios";
+      btnBanco.innerHTML = "💳 <strong>Ocultar datos bancarios</strong>";
       btnBanco.setAttribute("aria-expanded", "true");
-      // mover foco al contenedor para que lectores lo detecten
       datosBanco.focus();
     } else {
       datosBanco.style.display = "none";
       datosBanco.setAttribute("aria-hidden", "true");
-      btnBanco.textContent = "💳 Ver datos bancarios";
+      btnBanco.innerHTML = "💳 <strong>Ver datos bancarios</strong>";
       btnBanco.setAttribute("aria-expanded", "false");
       btnBanco.focus();
     }
   });
 }
 
-// ========= SOBRE + DESBLOQUEO DE PÁGINA =========
-const sobreOverlay = safeGetById("sobre-overlay");
-const sello = document.querySelector(".sello");
-const sobre = document.querySelector(".sobre");
-
-// La página inicia oculta
-if (pagina) {
-  pagina.classList.add("pagina-oculta");
-}
-
-if (sello && sobreOverlay && pagina) {
-  sello.addEventListener("click", async () => {
-
-    // Iniciar música con gesto del usuario
-    if (musica && musica.paused) {
-      try {
-        await musica.play();
-        if (btnMusica) {
-          btnMusica.querySelector(".material-symbols-outlined").textContent = "volume_up";
-          btnMusica.setAttribute("aria-pressed", "true");
-        }
-        if (aviso) {
-          aviso.style.opacity = "0";
-          setTimeout(() => aviso.style.display = "none", 600);
-        }
-      } catch (e) {
-        console.log("Audio bloqueado:", e);
-      }
-    }
-
-    // Animar sobre
-    if (sobre) sobre.classList.add("abierto");
-
-    // Mostrar página
-    setTimeout(() => {
-  sobreOverlay.style.display = "none";
-  sobreOverlay.style.pointerEvents = "none";
-
-  pagina.classList.remove("pagina-oculta");
-  pagina.classList.add("pagina-visible");
-
-  document.body.style.overflow = "auto"; // 🔥 CLAVE
-
-  lanzarConfetti();
-}, 1000);
-
-  });
-}
-
-// Sacudida del sobre para llamar la atención
-if (sobre) {
-  setInterval(() => {
-    if (!sobre.classList.contains("abierto")) {
-      sobre.classList.remove("atencion");
-      void sobre.offsetWidth;
-      sobre.classList.add("atencion");
-    }
-  }, 2500);
-}
-
-// ========= PANTALLA DE CARGA =========
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  if (!loader) return;
-
-  setTimeout(() => {
-    loader.classList.add("oculto");
-  }, 800); // puedes ajustar el tiempo
+// ========= INICIALIZACIÓN =========
+document.addEventListener("DOMContentLoaded", () => {
+  // Iniciar secuencia de carga -> sobre -> contenido
+  initLoadingSequence();
+  
+  // Inicializar funcionalidades (se ejecutan pero el contenido está oculto)
+  initSectionAnimations();
+  initScrollToTop();
+  initMusicPlayer();
+  initConfirmation();
+  initCountdown();
+  initFireflies();
+  initPhotoUpload();
+  initTimeline();
+  initBankDetails();
 });
-
