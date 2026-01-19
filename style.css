@@ -603,6 +603,68 @@ input[type="file"] {
   margin-bottom: 10px;
 }
 
+.mapa-link {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.mapa-link img {
+  width: 100%;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mapa-link:hover img,
+.mapa-link:focus img {
+  transform: scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.mapa-cta {
+  display: block;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+/* ==================== VESTIMENTA ==================== */
+.vestimenta-contenedor {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.vestimenta-item {
+  text-align: center;
+  flex: 1 1 160px;
+}
+
+.vestimenta-item img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.vestimenta-item p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.vestimenta-descripcion {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
 /* ==================== REGALOS ==================== */
 .regalos-opciones {
   display: flex;
@@ -1063,10 +1125,6 @@ input[type="file"] {
     flex: 1 1 100%;
   }
 
-  .mapa iframe {
-    height: 250px;
-  }
-
   .regalos-opciones {
     gap: 30px;
   }
@@ -1164,10 +1222,6 @@ input[type="file"] {
 
   .mapa h4 {
     font-size: 1.4rem;
-  }
-
-  .mapa iframe {
-    height: 200px;
   }
 
   .regalo-bloque img {
