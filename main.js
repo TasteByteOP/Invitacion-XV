@@ -1,6 +1,6 @@
 // ========= CONFIGURACIÓN =========
 const FECHA_EVENTO = new Date("2026-03-07T15:00:00");
-const WHATSAPP_NUMERO = "527226163280";
+const WHATSAPP_NUMERO = "527224071587";
 const CLOUDINARY_CONFIG = {
   cloudName: "dxrnsitv5",
   uploadPreset: "mural_xv"
@@ -250,7 +250,6 @@ function initConfirmation() {
 
   btnConfirmar.addEventListener("click", () => {
     const nombreEl = $id("nombre");
-    const asistenciaEl = $id("asistencia");
     const nombre = nombreEl?.value.trim() || "";
 
     // Validación: nombre obligatorio
@@ -268,11 +267,7 @@ function initConfirmation() {
       return;
     }
 
-    const asistencia = asistenciaEl?.value === "no" ? "no" : "si";
-    const mensaje =
-      asistencia === "si"
-        ? `Hola, soy ${nombre}. Sí asistiré a los XV 🎉`
-        : `Hola, soy ${nombre}. No asistiré a los XV 🙏`;
+    const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV 🎉`;
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
 
     // Lanzar confetti si está disponible
