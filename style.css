@@ -7,11 +7,11 @@
   --fallback: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 
   /* Colores */
-  --accent: #c9a227;
-  --accent-dark: #3b2f00;
-  --accent-light: #f5e28a;
-  --text-primary: #c6d899;
-  --title-color: #99b292;
+  --accent: #82a33f;
+  --accent-dark: #3c5a1a;
+  --accent-light: #cfe68a;
+  --text-primary: #bbcc70;
+  --title-color: #82a33f;
   --white: #fff;
   --black: #000;
 
@@ -49,7 +49,8 @@ body {
 /* ==================== TIPOGRAFÍA ==================== */
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--title-font), var(--fallback);
   margin: 0;
   color: var(--title-color);
@@ -200,7 +201,7 @@ button {
 .hero-text h1 {
   font-size: 4rem;
   letter-spacing: 3px;
-  color: #c6be61;
+  color: var(--title-color);
   z-index: 1;
 }
 
@@ -305,7 +306,7 @@ button {
 .invitacion-bloque h4 {
   font-family: var(--title-font), var(--fallback);
   font-size: 1.8rem;
-  color: var(--accent);
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -655,7 +656,7 @@ select:focus {
 .mapa h4 {
   font-family: var(--title-font), var(--fallback);
   font-size: 1.8rem;
-  color: var(--accent);
+  color: var(--text-primary);
   margin-bottom: 10px;
 }
 
@@ -959,7 +960,7 @@ select:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background:  #dae4c7;
+  background:  #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1019,7 +1020,7 @@ select:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #dae4c7;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
