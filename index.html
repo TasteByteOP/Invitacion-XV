@@ -33,7 +33,11 @@
     <video id="envelope-video" class="envelope-video" muted playsinline>
       <source src="Assets/vid/Sobre.webm" type="video/webm">
     </video>
-    <p class="envelope-hint">Toca el sobre para abrirlo</p>
+    <div class="flower-cta" id="flower-cta" aria-label="Toca la flor para abrir" role="button" tabindex="0">
+      <img src="Assets/img/flor.png" alt="Flor interactiva" class="flower-image">
+      <span class="material-symbols-outlined flower-icon" aria-hidden="true">touch_app</span>
+    </div>
+    <p class="envelope-hint">Toca la flor para abrir</p>
   </div>
 </div>
 
@@ -92,28 +96,46 @@
   <h3>Programa</h3>
   <div class="timeline">
     <div class="timeline-item left">
-      <span class="hora">3:30 PM</span>
-      <p>Parroquia de San Bartolomé Apóstol</p>
+      <img src="Assets/img/misa.png" class="timeline-icon" alt="Misa">
+      <div class="timeline-content">
+        <span class="hora">3:30 PM</span>
+        <p>Parroquia de San Bartolomé Apóstol</p>
+      </div>
     </div>
     <div class="timeline-item right">
-      <span class="hora">4:30 PM</span>
-      <p>Recepción</p>
+      <div class="timeline-content">
+        <span class="hora">4:30 PM</span>
+        <p>Recepción</p>
+      </div>
+      <img src="Assets/img/recepcion.png" class="timeline-icon" alt="Recepción">
     </div>
     <div class="timeline-item left">
-      <span class="hora">5:30 PM</span>
-      <p>Comida</p>
+      <img src="Assets/img/comida.png" class="timeline-icon" alt="Comida">
+      <div class="timeline-content">
+        <span class="hora">5:30 PM</span>
+        <p>Comida</p>
+      </div>
     </div>
     <div class="timeline-item right">
-      <span class="hora">7:00 PM</span>
-      <p>Vals</p>
+      <div class="timeline-content">
+        <span class="hora">7:00 PM</span>
+        <p>Vals</p>
+      </div>
+      <img src="Assets/img/vals.png" class="timeline-icon" alt="Vals">
     </div>
     <div class="timeline-item left">
-      <span class="hora">8:30 PM</span>
-      <p>Baile</p>
+      <img src="Assets/img/baile.png" class="timeline-icon" alt="Baile">
+      <div class="timeline-content">
+        <span class="hora">8:30 PM</span>
+        <p>Baile</p>
+      </div>
     </div>
     <div class="timeline-item right">
-      <span class="hora">12:00 AM</span>
-      <p>Fin del evento</p>
+      <div class="timeline-content">
+        <span class="hora">12:00 AM</span>
+        <p>Fin del evento</p>
+      </div>
+      <img src="Assets/img/Fin.png" class="timeline-icon" alt="Fin">
     </div>
   </div>
 </section>
@@ -169,15 +191,15 @@
     les agradezco de antemano<br>
     por su generosidad.
   </p>
+  <img src="Assets/img/liverpool-logo.png" alt="Logo Liverpool" class="regalo-logo-central">
   <div class="regalos-opciones">
     <div class="regalo-bloque">
-      <img src="Assets/img/liverpool-logo.png" alt="Logo Liverpool">
       <a class="boton" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51912260" target="_blank" rel="noopener noreferrer">
         🎁 Ver mesa de regalos en Liverpool
       </a>
+      <p>Número de evento: 51912260</p>
     </div>
     <div class="regalo-bloque">
-      <img src="Assets/img/BBVA-logo.jpg" alt="Logo BBVA">
       <button class="boton boton2" id="btn-banco" aria-expanded="false" aria-controls="datos-banco">
         💳 <strong>Ver datos bancarios</strong>
       </button>
@@ -213,8 +235,12 @@
   <h3>Confirmar Asistencia</h3>
   <label for="nombre">Escribe tu nombre aquí:</label>
   <input id="nombre" type="text" placeholder="Tu nombre" autocomplete="name">
-  <label for="personas">¿Cuántas personas asistirán contigo?</label>
-  <input id="personas" type="number" min="1" placeholder="Número de invitados">
+  <label for="asistencia">¿Asistirás a la fiesta?</label>
+  <select id="asistencia">
+    <option value="" disabled selected>Elige una opción</option>
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
   <button class="boton boton2 whatsapp" id="btn-confirmar">
     Confirmar por WhatsApp
   </button>
