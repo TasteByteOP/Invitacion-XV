@@ -65,15 +65,17 @@
 
 <!-- INVITACIÓN -->
 <section class="section invitacion">
-  <h3>¡Celebra este día tan maravilloso con nosotros!</h3>
+  <h3>Celebra este día tan maravilloso con la bendición de dios y de: </h3>
   <div class="invitacion-contenido">
     <div class="invitacion-bloque padres">
       <h4>Mis Padres</h4>
-      <p>Veronica Montiel Vallejo<br>Juan Carlos Govea Tellez</p>
+      <p>Veronica Montiel Vallejo</p>
+      <p>Juan Carlos Govea Tellez</p>
     </div>
     <div class="invitacion-bloque madrina">
-      <h4>Mi Madrina</h4>
+      <h4>Mis Padrinos</h4>
       <p>Maria Guadalupe Montiel Vallejo</p>
+      <p>Edgar Martinez Montiel</p>
     </div>
   </div>
 </section>
@@ -99,7 +101,7 @@
       <img src="Assets/img/misa.png" class="timeline-icon" alt="Misa">
       <div class="timeline-content">
         <span class="hora">3:30 PM</span>
-        <p>Parroquia de San Bartolomé Apóstol</p>
+        <p>Misa</p>
       </div>
     </div>
     <div class="timeline-item right">
@@ -112,7 +114,7 @@
     <div class="timeline-item left">
       <img src="Assets/img/comida.png" class="timeline-icon" alt="Comida">
       <div class="timeline-content">
-        <span class="hora">5:30 PM</span>
+        <span class="hora">5:00 PM</span>
         <p>Comida</p>
       </div>
     </div>
@@ -158,7 +160,7 @@
           src="Assets/img/Parroquia.jpg"
           alt="Ubicación de la Parroquia de San Bartolomé Apóstol"
         >
-        <span class="mapa-cta">Ver ubicación en Google Maps</span>
+        <span class="mapa-cta">C. Independencia Manzana 004, Centro, 52080 Villa Cuauhtémoc, Méx.</span>
       </a>
     </div>
     <div class="mapa">
@@ -174,7 +176,7 @@
           src="Assets/img/Salon.jpg"
           alt="Ubicación del salón de fiestas"
         >
-        <span class="mapa-cta">Ver ubicación en Google Maps</span>
+        <span class="mapa-cta">De Los Ramos 3, Villa Cuauhtemoc, 52080 Villa Cuauhtémoc, Méx.</span>
       </a>
     </div>
   </div>
@@ -187,9 +189,9 @@
   <p>
     Su presencia en mi fiesta de quince años<br>
     es el mejor regalo que puedo recibir.<br><br>
-    Sin embargo, si desean hacerme un obsequio,<br>
-    les agradezco de antemano<br>
-    por su generosidad.
+    Sin embargo, si desean regalarme algo,<br>
+    te comparto las siguientes opciones <br>
+    y agradezco de antemano
   </p>
   <img src="Assets/img/liverpool-logo.png" alt="Logo Liverpool" class="regalo-logo-central">
   <div class="regalos-opciones">
@@ -197,7 +199,7 @@
       <a class="boton" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51912260" target="_blank" rel="noopener noreferrer">
         🎁 Ver mesa de regalos en Liverpool
       </a>
-      <p>Número de evento: 51912260</p>
+      <h5>Número de evento: 51912260</h5>
     </div>
   </div>
 </section>
@@ -209,23 +211,29 @@
     <div class="vestimenta-item">
       <img src="Assets/img/Hombre.png" alt="Código de vestimenta para hombres">
       <p>Hombres</p>
-      <p class="vestimenta-descripcion">Traje oscuro, camisa y calzado formal.</p>
     </div>
     <div class="vestimenta-item">
       <img src="Assets/img/Mujer.png" alt="Código de vestimenta para mujeres">
       <p>Mujeres</p>
-      <p class="vestimenta-descripcion">Vestido largo o cóctel formal y calzado elegante.</p>
     </div>
   </div>
-  <p><strong>Importante: El verde menta es exclusivo para la quinceañera</strong></p>
+  <h5>Vestimenta solo formal</h5>
+  <h5><strong>Importante: El verde menta es exclusivo para la quinceañera</strong></h5>
 </section>
+
 <!-- CONFIRMAR ASISTENCIA -->
 <section class="section">
   <img src="Assets/img/confirmar.jpg" class="icono" alt="Icono confirmar">
   <h3>Confirmar Asistencia</h3>
-  <p><strong>Favor de confirmar su asistencia antes del 14 de Febrero</strong></p>
+  <h5><strong>Favor de confirmar su asistencia antes del 14 de Febrero</strong></h5>
   <label for="nombre">Escribe tu nombre aquí:</label>
   <input id="nombre" type="text" placeholder="Tu nombre" autocomplete="name">
+  <label for="asistencia">¿Vas a asistir?:</label>
+  <select id="asistencia" required>
+    <option value="" disabled selected>Selecciona una opción</option>
+    <option value="si">Sí, ahí estare</option>
+    <option value="no">No, no me es posible</option>
+  </select>
   <button class="boton boton2 whatsapp" id="btn-confirmar">
     Confirmar por WhatsApp
   </button>
@@ -242,6 +250,13 @@
   <a href="https://collection.cloudinary.com/dxrnsitv5/aa33436d8e70996a67a4edcef0ec174a" class="boton" target="_blank" rel="noopener noreferrer">
     Ver mural completo
   </a>
+</section>
+
+<section class="section">
+  <div class="corona-container">
+    <img src="Assets/img/corona.png" class="icono" alt="Icono corona">
+    <h3>¡Te esperamos!</h3>
+  </div>
 </section>
 
 <!-- CONTROLES DE MÚSICA -->
