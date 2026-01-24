@@ -56,6 +56,12 @@ h4 {
   color: var(--title-color);
 }
 
+h5 {
+  font-family: var(--body-font), var(--fallback);
+  font-size: 22px;
+  font-weight: 400;
+  color: #65942f
+}
 h3 {
   letter-spacing: 1.3px;
 }
@@ -1560,4 +1566,8 @@ iframe {
   input:focus {
     transform: none;
   }
+}
+
+.corona-container img {
+  max-width: 180px;
 }
