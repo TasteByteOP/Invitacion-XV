@@ -251,27 +251,41 @@ function initConfirmation() {
   btnConfirmar.addEventListener("click", () => {
     const nombreEl = $id("nombre");
     const nombre = nombreEl?.value.trim() || "";
+    const asistenciaEl = $id("asistencia");
+    const asistencia = asistenciaEl?.value || "";
 
-    // Validación: nombre obligatorio
-    if (!nombre) {
-      if (nombreEl) {
+    // Validación: nombre y asistencia obligatorios
+    if (!nombre || !asistencia) {
+      if (!nombre && nombreEl) {
         nombreEl.classList.add("input-error");
         nombreEl.focus();
-        
-        const removeError = () => {
+        const removeErrorNombre = () => {
           nombreEl.classList.remove("input-error");
-          nombreEl.removeEventListener("input", removeError);
+          nombreEl.removeEventListener("input", removeErrorNombre);
         };
-        nombreEl.addEventListener("input", removeError);
+        nombreEl.addEventListener("input", removeErrorNombre);
+      } else if (!asistencia && asistenciaEl) {
+        asistenciaEl.classList.add("input-error");
+        asistenciaEl.focus();
+        const removeErrorAsistencia = () => {
+          asistenciaEl.classList.remove("input-error");
+          asistenciaEl.removeEventListener("change", removeErrorAsistencia);
+        };
+        asistenciaEl.addEventListener("change", removeErrorAsistencia);
       }
       return;
     }
 
-    const mensaje = `Hola, soy ${nombre} y confirmo mi asistencia a los XV 🎉`;
+    const mensaje =
+      asistencia === "si"
+        ? `Hola, soy ${nombre} y confirmo mi asistencia a los XV 🎉`
+        : `Hola, soy ${nombre} y no podré asistir a los XV 🙏`;
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
 
     // Lanzar confetti si está disponible
-    lanzarConfetti();
+    if (asistencia === "si") {
+      lanzarConfetti();
+    }
 
     window.open(url, "_blank");
     btnConfirmar.blur();
